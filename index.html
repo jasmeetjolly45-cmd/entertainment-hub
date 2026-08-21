@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Should I Watch?</title>
+    <style>
+        /* Notion Theme Integration */
+        :root {
+            --notion-bg: #ffffff;
+            --beige-frame: #F4F0EA; /* Fallback for background.png */
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --notion-bg: #191919;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--notion-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Outer Composition (613 x 447 ratio) */
+        .widget-outer-container {
+            position: relative;
+            width: 100%;
+            max-width: 613px;
+            aspect-ratio: 613 / 447;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-color: var(--beige-frame);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Inner Forest Green Interactive Widget */
+        .widget-inner {
+            position: absolute;
+            left: 5.873%;
+            right: 5.873%;
+            top: 8.054%;
+            bottom: 8.054%;
+            background-color: #103525;
+            border-radius: 12px;
+            color: #F4F0EA;
+            padding: 18px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: inset 0 0 0 1px rgba(244, 240, 234, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .widget-header {
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .widget-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #F4F0EA;
+            font-family: Georgia, serif;
+        }
+
+        .widget-subtitle {
+            font-size: 0.75rem;
+            color: #A3B8B0;
+            margin-top: 2px;
+        }
+
+        /* Selection Interface Grid */
+        .selection-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 4px 0;
+        }
+
+        .selection-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .group-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #D4AF37; /* Restrained gold accent */
+            width: 70px;
+            flex-shrink: 0;
+        }
+
+        .pill-options {
+            display: flex;
+            gap: 4px;
+            flex-grow: 1;
+            justify-content: flex-end;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .pill-options::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pill {
+            background-color: rgba(244, 240, 234, 0.07);
+            border: 1px solid rgba(244, 240, 234, 0.12);
+            color: #C2D0C9;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .pill:hover {
+            background-color: rgba(244, 240, 234, 0.15);
+            color: #FFFFFF;
+        }
+
+        .pill.active {
+            background-color: #F4F0EA;
+            color: #0D2F22;
+            border-color: #F4F0EA;
+            font-weight: 500;
+        }
+
+        /* Footer Actions */
+        .widget-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-find {
+            flex-grow: 1;
+            background-color: #D4AF37;
+            color: #0D2F22;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-find:hover {
+            opacity: 0.9;
+        }
+
+        .btn-find:active {
+            transform: scale(0.98);
+        }
+
+        .btn-surprise {
+            background-color: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #D4AF37;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-surprise:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .error-message {
+            font-size: 0.65rem;
+            color: #E0A96D;
+            text-align: center;
+            height: 12px;
+            visibility: hidden;
+        }
+
+        .error-message.visible {
+            visibility: visible;
+        }
+
+        /* Result State */
+        .result-state {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-badge {
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
+            color: #D4AF37;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .result-icon {
+            font-size: 1.5rem;
+            margin-bottom: 2px;
+        }
+
+        .result-main {
+            font-size: 1rem;
+            font-family: Georgia, serif;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            max-width: 90%;
+        }
+
+        .result-perfect-for {
+            font-size: 0.72rem;
+            color: #A3B8B0;
+            background: rgba(244, 240, 234, 0.05);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border-left: 2px solid #D4AF37;
+            margin-bottom: 12px;
+            max-width: 90%;
+        }
+
+        .btn-reset {
+            background-color: rgba(244, 240, 234, 0.1);
+            border: 1px solid rgba(244, 240, 234, 0.2);
+            color: #F4F0EA;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: rgba(244, 240, 234, 0.2);
+        }
+
+        /* Utility view switchers */
+        .view {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="widget-outer-container">
+        <div class="widget-inner">
+            
+            <!-- Selection View -->
+            <div id="selectionView" class="view">
+                <div class="widget-header">
+                    <h1 class="widget-title">🎬 What Should I Watch?</h1>
+                    <p class="widget-subtitle">Tell us what you're in the mood for.</p>
+                </div>
+
+                <div class="selection-container">
+                    <!-- Mood -->
+                    <div class="selection-group">
+                        <span class="group-label">MOOD</span>
+                        <div class="pill-options" data-category="mood">
+                            <button class="pill" data-value="Cozy">Cozy</button>
+                            <button class="pill" data-value="Funny">Funny</button>
+                            <button class="pill" data-value="Thrilling">Thrilling</button>
+                            <button class="pill" data-value="Emotional">Emotional</button>
+                            <button class="pill" data-value="Mindless">Mindless</button>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="selection-group">
+                        <span class="group-label">TIME</span>
+                        <div class="pill-options" data-category="time">
+                            <button class="pill" data-value="30 MIN">30 MIN</button>
+                            <button class="pill" data-value="1 HR">1 HR</button>
+                            <button class="pill" data-value="2 HRS">2 HRS</button>
+                            <button class="pill" data-value="3+ HRS">3+ HRS</button>
+                        </div>
+                    </div>
+
+                    <!-- Format -->
+                    <div class="selection-group">
+                        <span class="group-label">FORMAT</span>
+                        <div class="pill-options" data-category="format">
+                            <button class="pill" data-value="Movie">Movie</button>
+                            <button class="pill" data-value="Show">Show</button>
+                            <button class="pill" data-value="Anything">Anything</button>
+                        </div>
+                    </div>
+
+                    <!-- Energy -->
+                    <div class="selection-group">
+                        <span class="group-label">ENERGY</span>
+                        <div class="pill-options" data-category="energy">
+                            <button class="pill" data-value="Low Effort">Low Effort</button>
+                            <button class="pill" data-value="Somewhat Invested">Somewhat Invested</button>
+                            <button class="pill" data-value="Fully Invested">Fully Invested</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-footer">
+                    <div id="errorMsg" class="error-message">Please make a selection in all categories.</div>
+                    <div class="action-row">
+                        <button id="findBtn" class="btn-find">✨ FIND MY WATCH</button>
+                        <button id="surpriseBtn" class="btn-surprise" title="Surprise Me">🎲</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result View -->
+            <div id="resultView" class="result-state">
+                <div class="result-badge">TONIGHT CALLS FOR</div>
+                <div id="resultIcon" class="result-icon">🍿</div>
+                <div id="resultMain" class="result-main">A funny, low-effort movie</div>
+                <div id="resultPerfect" class="result-perfect-for">Perfect for: winding down without having to think too hard.</div>
+                <button id="resetBtn" class="btn-reset">↻ RESET</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // State management
+        const state = {
+            mood: null,
+            time: null,
+            format: null,
+            energy: null
+        };
+
+        // DOM Elements
+        const selectionView = document.getElementById('selectionView');
+        const resultView = document.getElementById('resultView');
+        const findBtn = document.getElementById('findBtn');
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        
+        const resultIcon = document.getElementById('resultIcon');
+        const resultMain = document.getElementById('resultMain');
+        const resultPerfect = document.getElementById('resultPerfect');
+
+        // Handle Pill Selections
+        document.querySelectorAll('.pill-options').forEach(group => {
+            const category = group.dataset.category;
+            group.querySelectorAll('.pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    state[category] = pill.dataset.value;
+                    errorMsg.classList.remove('visible');
+                });
+            });
+        });
+
+        // Recommendation Engine Database / Logic
+        function generateRecommendation() {
+            const { mood, time, format, energy } = state;
+            
+            // Map icons based on mood/format
+            let icon = '🍿';
+            if (mood === 'Cozy') icon = '☕';
+            if (mood === 'Thrilling') icon = '⚡';
+            if (mood === 'Emotional') icon = '🌙';
+            if (mood === 'Funny') icon = '✨';
+            if (format === 'Show') icon = '📺';
+
+            // Construct contextual description
+            let description = `A ${mood.toLowerCase()}, `;
+            if (energy === 'Low Effort') {
+                description += `low-effort ${format.toLowerCase()}`;
+            } else if (energy === 'Fully Invested') {
+                description += `gripping, high-immersion ${format.toLowerCase()}`;
+            } else {
+                description += `engaging ${format.toLowerCase()}`;
+            }
+
+            // Construct "Perfect for" context
+            let perfectFor = "winding down and enjoying the moment.";
+            if (mood === 'Cozy' && energy === 'Low Effort') {
+                perfectFor = "a quiet little wind-down wrapped in a blanket.";
+            } else if (mood === 'Thrilling' && energy === 'Fully Invested') {
+                perfectFor = "getting completely pulled into a suspenseful story.";
+            } else if (mood === 'Funny' && time === '30 MIN') {
+                perfectFor = "some quick laughs without committing to a full feature.";
+            } else if (mood === 'Emotional' && energy === 'Fully Invested') {
+                perfectFor = "an immersive experience that hits right in the feels.";
+            } else if (mood === 'Mindless') {
+                perfectFor = "turning off your brain and enjoying pure entertainment.";
+            } else {
+                if (time === '3+ HRS') perfectFor = "an epic, dedicated session.";
+                else if (time === '30 MIN') perfectFor = "a fast-paced break in your day.";
+                else perfectFor = "relaxing after a long day.";
+            }
+
+            return {
+                icon,
+                main: description,
+                perfect: `Perfect for: ${perfectFor}`
+            };
+        }
+
+        // Find My Watch Action
+        findBtn.addEventListener('click', () => {
+            if (!state.mood || !state.time || !state.format || !state.energy) {
+                errorMsg.classList.add('visible');
+                return;
+            }
+
+            const rec = generateRecommendation();
+            resultIcon.textContent = rec.icon;
+            resultMain.textContent = rec.main;
+            resultPerfect.textContent = rec.perfect;
+
+            selectionView.style.display = 'none';
+            resultView.style.display = 'flex';
+        });
+
+        // Surprise Me Action
+        surpriseBtn.addEventListener('click', () => {
+            const moods = ['Cozy', 'Funny', 'Thrilling', 'Emotional', 'Mindless'];
+            const times = ['30 MIN', '1 HR', '2 HRS', '3+ HRS'];
+            const formats = ['Movie', 'Show', 'Anything'];
+            const energies = ['Low Effort', 'Somewhat Invested', 'Fully Invested'];
+
+            state.mood = moods[Math.floor(Math.random() * moods.length)];
+            state.time = times[Math.floor(Math.random() * times.length)];
+            state.format = formats[Math.floor(Math.random() * formats.length)];
+            state.energy = energies[Math.floor(Math.random() * energies.length)];
+
+            // Visually reflect random choices
+            ['mood', 'time', 'format', 'energy'].forEach(cat => {
+                const group = document.querySelector(`[data-category="${cat}"]`);
+                group.querySelectorAll('.pill').forEach(pill => {
+                    if (pill.dataset.value === state[cat]) {
+                        pill.classList.add('active');
+                    } else {
+                        pill.classList.remove('active');
+                    }
+                });
+            });
+
+            errorMsg.classList.remove('visible');
+
+            // Generate and show result directly
+            const rec = generateRecommendation();
+            resultIcon.textContent = rec.icon;
+            resultMain.textContent = rec.main;
+            resultPerfect.textContent = rec.perfect;
+
+            selectionView.style.display = 'none';
+            resultView.style.display = 'flex';
+        });
+
+        // Reset Action
+        resetBtn.addEventListener('click', () => {
+            state.mood = null;
+            state.time = null;
+            state.format = null;
+            state.energy = null;
+
+            document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
+            errorMsg.classList.remove('visible');
+
+            resultView.style.display = 'none';
+            selectionView.style.display = 'flex';
+        });
+    </script>
+</body>
+</html>
