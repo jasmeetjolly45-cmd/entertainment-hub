@@ -27,6 +27,7 @@
     --muted: #9EAA9E;
 
     --sage: #78936F;
+
     --gold: #C9A45C;
     --gold-light: #D8B875;
 
@@ -85,15 +86,11 @@ body {
 
    613 × 447
 
-   The background image remains the complete decorative
-   frame.
+   The decorative background image stays visible around
+   the entire forest-green widget.
 
    IMPORTANT:
-   The composition maintains its aspect ratio and the
-   inner widget is positioned with percentages.
-
-   This is the mobile technique that worked for your
-   Get Ready With Me widget.
+   The aspect ratio is preserved on mobile.
    ========================================================= */
 
 .composition {
@@ -119,17 +116,16 @@ body {
 
 
 /* =========================================================
-   INNER WIDGET
+   INNER FOREST-GREEN WIDGET
    =========================================================
 
-   Approximately:
+   Approximately 541 × 375.
 
-   541 × 375
+   IMPORTANT:
+   Do NOT change this to height:100%.
 
-   NEVER change this to height:100%.
-
-   The percentage positioning preserves the frame on
-   desktop AND mobile.
+   These percentage values preserve the beige frame
+   correctly on mobile.
    ========================================================= */
 
 .widget {
@@ -157,7 +153,7 @@ body {
 
 
 /* =========================================================
-   ALL SCREENS
+   SCREEN
    ========================================================= */
 
 .screen {
@@ -168,6 +164,11 @@ body {
     width: 100%;
     height: 100%;
 
+    /* THIS IS THE IMPORTANT FIX */
+    background: var(--forest);
+
+    border-radius: inherit;
+
     padding: 20px 25px 16px;
 
     display: flex;
@@ -176,6 +177,7 @@ body {
     overflow: hidden;
 
     opacity: 0;
+
     pointer-events: none;
 
     transform: translateX(5px);
@@ -301,7 +303,9 @@ body {
 
     display: grid;
 
-    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-columns:
+        88px
+        minmax(0, 1fr);
 
     align-items: center;
 
@@ -324,6 +328,8 @@ body {
 
 .option-input-wrap {
     position: relative;
+
+    min-width: 0;
 }
 
 .option-input {
@@ -360,9 +366,11 @@ body {
 }
 
 .option-input:focus {
-    border-color: var(--border-gold);
+    border-color:
+        var(--border-gold);
 
-    background: var(--input-hover);
+    background:
+        var(--input-hover);
 }
 
 
@@ -413,7 +421,7 @@ body {
 
 
 /* =========================================================
-   OPTION REMOVE BUTTON
+   REMOVE OPTION
    ========================================================= */
 
 .remove-option {
@@ -422,7 +430,8 @@ body {
     right: 7px;
     top: 50%;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%);
 
     width: 17px;
     height: 17px;
@@ -488,11 +497,13 @@ body {
 }
 
 .bottom-button:hover {
-    background: var(--gold-light);
+    background:
+        var(--gold-light);
 }
 
 .bottom-button:active {
-    transform: scale(.99);
+    transform:
+        scale(.99);
 }
 
 
@@ -542,7 +553,7 @@ body {
 
 
 /* =========================================================
-   RATING CARDS CONTAINER
+   RATING CARDS
    ========================================================= */
 
 .rating-cards {
@@ -591,10 +602,6 @@ body {
     flex-direction: column;
 
     overflow: hidden;
-}
-
-.rating-card.hidden {
-    display: none;
 }
 
 .rating-card-name {
@@ -720,15 +727,19 @@ body {
     border-color:
         rgba(201,164,92,.40);
 
-    color: var(--cream);
+    color:
+        var(--cream);
 }
 
 .rating-button.selected {
-    background: var(--sage);
+    background:
+        var(--sage);
 
-    border-color: var(--sage);
+    border-color:
+        var(--sage);
 
-    color: #10281B;
+    color:
+        #10281B;
 
     font-weight: 700;
 }
@@ -791,7 +802,8 @@ body {
         1px solid
         rgba(120,147,111,.35);
 
-    color: #A9BB9F;
+    color:
+        #A9BB9F;
 
     font-size: 7px;
 
@@ -799,6 +811,11 @@ body {
 
     letter-spacing: .08em;
 }
+
+
+/* =========================================================
+   RESULT BODY
+   ========================================================= */
 
 .result-body {
     flex: 1;
@@ -815,7 +832,10 @@ body {
 }
 
 .result-breakdown-title {
-    margin: 0 0 6px;
+    margin:
+        0
+        0
+        6px;
 
     font-size: 7px;
 
@@ -825,11 +845,13 @@ body {
 
     text-transform: uppercase;
 
-    color: var(--cream-muted);
+    color:
+        var(--cream-muted);
 }
 
 .result-breakdown {
     width: 320px;
+
     max-width: 100%;
 
     display: grid;
@@ -841,7 +863,9 @@ body {
 }
 
 .result-score {
-    padding: 7px 3px;
+    padding:
+        7px
+        3px;
 
     background:
         rgba(22,61,43,.72);
@@ -866,7 +890,8 @@ body {
 
     font-size: 5.5px;
 
-    color: var(--cream-muted);
+    color:
+        var(--cream-muted);
 
     margin-bottom: 2px;
 }
@@ -881,11 +906,18 @@ body {
 
     font-size: 11px;
 
-    color: var(--cream);
+    color:
+        var(--cream);
 }
+
+
+/* =========================================================
+   WHY BOX
+   ========================================================= */
 
 .why-box {
     width: 390px;
+
     max-width: 100%;
 
     margin-top: 9px;
@@ -911,7 +943,10 @@ body {
 }
 
 .why-title {
-    margin: 0 0 2px;
+    margin:
+        0
+        0
+        2px;
 
     font-size: 6px;
 
@@ -921,7 +956,8 @@ body {
 
     text-transform: uppercase;
 
-    color: var(--gold);
+    color:
+        var(--gold);
 }
 
 .why-text {
@@ -936,7 +972,8 @@ body {
 
     line-height: 1.35;
 
-    color: var(--cream-muted);
+    color:
+        var(--cream-muted);
 }
 
 
@@ -967,9 +1004,11 @@ body {
 
     border-radius: 6px;
 
-    background: var(--input);
+    background:
+        var(--input);
 
-    color: var(--cream-muted);
+    color:
+        var(--cream-muted);
 
     font-size: 7px;
 
@@ -983,11 +1022,14 @@ body {
 }
 
 .result-action:hover {
-    background: var(--sage);
+    background:
+        var(--sage);
 
-    border-color: var(--sage);
+    border-color:
+        var(--sage);
 
-    color: #10281B;
+    color:
+        #10281B;
 }
 
 
@@ -997,14 +1039,12 @@ body {
 
    IMPORTANT:
 
-   The OUTER composition and INNER widget geometry are
-   NOT changed.
+   The outer frame geometry is NOT changed.
 
-   We only make the CONTENT more compact.
+   The green widget remains inside the same proportional
+   boundaries.
 
-   No scrolling.
-   No horizontal overflow.
-   No height:100% on widget.
+   No scrolling is introduced.
    ========================================================= */
 
 @media (max-width: 600px) {
@@ -1039,7 +1079,9 @@ body {
     }
 
 
-    /* OPTIONS */
+    /* -----------------------------------------
+       OPTIONS
+       ----------------------------------------- */
 
     .options-area {
         margin-top: 8px;
@@ -1092,7 +1134,9 @@ body {
     }
 
 
-    /* RATINGS */
+    /* -----------------------------------------
+       RATINGS
+       ----------------------------------------- */
 
     .rating-screen {
         padding-left: 15px;
@@ -1156,7 +1200,9 @@ body {
     }
 
 
-    /* RESULT */
+    /* -----------------------------------------
+       RESULT
+       ----------------------------------------- */
 
     .result-kicker {
         font-size: 5.5px;
@@ -1341,367 +1387,381 @@ body {
 
 
 <!-- =========================================================
-     COMPLETE 613 × 447 COMPOSITION
+     OUTER DECORATIVE FRAME
      ========================================================= -->
 
 <div class="composition">
 
 
     <!-- =====================================================
-         SCREEN 1 — ENTER OPTIONS
+         FOREST GREEN WIDGET
          ===================================================== -->
 
-    <section
-        class="screen active"
-        id="optionsScreen"
-    >
-
-        <div class="header">
-
-            <div class="header-icon">
-                🎬
-            </div>
-
-            <h1 class="title">
-                Entertainment Decision Matrix
-            </h1>
-
-            <p class="subtitle">
-                Can't decide? Let the numbers choose.
-            </p>
-
-        </div>
+    <div class="widget">
 
 
-        <div class="step-label">
-            Step 1: Enter 3 to 5 Options
-        </div>
+        <!-- ================================================
+             SCREEN 1 — OPTIONS
+             ================================================ -->
 
-
-        <div
-            class="options-area"
-            id="optionsArea"
+        <section
+            class="screen active"
+            id="optionsScreen"
         >
 
-            <!-- OPTION 1 -->
+            <div class="header">
 
-            <div class="option-row">
-
-                <label class="option-label">
-                    Option 1
-                </label>
-
-                <div class="option-input-wrap">
-
-                    <input
-                        class="option-input"
-                        data-index="0"
-                        type="text"
-                        placeholder="Movie, show, game..."
-                        maxlength="40"
-                        autocomplete="off"
-                    >
-
+                <div class="header-icon">
+                    🎬
                 </div>
+
+                <h1 class="title">
+                    Entertainment Decision Matrix
+                </h1>
+
+                <p class="subtitle">
+                    Can't decide? Let the numbers choose.
+                </p>
 
             </div>
 
 
-            <!-- OPTION 2 -->
-
-            <div class="option-row">
-
-                <label class="option-label">
-                    Option 2
-                </label>
-
-                <div class="option-input-wrap">
-
-                    <input
-                        class="option-input"
-                        data-index="1"
-                        type="text"
-                        placeholder="Movie, show, game..."
-                        maxlength="40"
-                        autocomplete="off"
-                    >
-
-                </div>
-
+            <div class="step-label">
+                Step 1: Enter 3 to 5 Options
             </div>
 
-
-            <!-- OPTION 3 -->
-
-            <div class="option-row">
-
-                <label class="option-label">
-                    Option 3
-                </label>
-
-                <div class="option-input-wrap">
-
-                    <input
-                        class="option-input"
-                        data-index="2"
-                        type="text"
-                        placeholder="Movie, show, game..."
-                        maxlength="40"
-                        autocomplete="off"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- OPTION 4 -->
 
             <div
-                class="option-row"
-                id="optionRow4"
-                style="display:none;"
+                class="options-area"
+                id="optionsArea"
             >
 
-                <label class="option-label">
-                    Option 4
-                </label>
+                <!-- OPTION 1 -->
 
-                <div class="option-input-wrap">
+                <div class="option-row">
 
-                    <input
-                        class="option-input"
-                        data-index="3"
-                        type="text"
-                        placeholder="Movie, show, game..."
-                        maxlength="40"
-                        autocomplete="off"
-                    >
+                    <label class="option-label">
+                        Option 1
+                    </label>
 
-                    <button
-                        class="remove-option"
-                        data-remove="3"
-                        type="button"
-                    >
-                        ×
-                    </button>
+                    <div class="option-input-wrap">
+
+                        <input
+                            class="option-input"
+                            data-index="0"
+                            type="text"
+                            placeholder="Movie, show, game..."
+                            maxlength="40"
+                            autocomplete="off"
+                        >
+
+                    </div>
 
                 </div>
 
+
+                <!-- OPTION 2 -->
+
+                <div class="option-row">
+
+                    <label class="option-label">
+                        Option 2
+                    </label>
+
+                    <div class="option-input-wrap">
+
+                        <input
+                            class="option-input"
+                            data-index="1"
+                            type="text"
+                            placeholder="Movie, show, game..."
+                            maxlength="40"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTION 3 -->
+
+                <div class="option-row">
+
+                    <label class="option-label">
+                        Option 3
+                    </label>
+
+                    <div class="option-input-wrap">
+
+                        <input
+                            class="option-input"
+                            data-index="2"
+                            type="text"
+                            placeholder="Movie, show, game..."
+                            maxlength="40"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTION 4 -->
+
+                <div
+                    class="option-row"
+                    id="optionRow4"
+                    style="display:none;"
+                >
+
+                    <label class="option-label">
+                        Option 4
+                    </label>
+
+                    <div class="option-input-wrap">
+
+                        <input
+                            class="option-input"
+                            data-index="3"
+                            type="text"
+                            placeholder="Movie, show, game..."
+                            maxlength="40"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            class="remove-option"
+                            data-remove="3"
+                            type="button"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTION 5 -->
+
+                <div
+                    class="option-row"
+                    id="optionRow5"
+                    style="display:none;"
+                >
+
+                    <label class="option-label">
+                        Option 5
+                    </label>
+
+                    <div class="option-input-wrap">
+
+                        <input
+                            class="option-input"
+                            data-index="4"
+                            type="text"
+                            placeholder="Movie, show, game..."
+                            maxlength="40"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            class="remove-option"
+                            data-remove="4"
+                            type="button"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADD OPTION -->
+
+                <button
+                    class="add-option"
+                    id="addOption"
+                    type="button"
+                >
+                    + Add Option
+                </button>
+
             </div>
 
-
-            <!-- OPTION 5 -->
 
             <div
-                class="option-row"
-                id="optionRow5"
-                style="display:none;"
+                class="validation"
+                id="optionValidation"
             >
-
-                <label class="option-label">
-                    Option 5
-                </label>
-
-                <div class="option-input-wrap">
-
-                    <input
-                        class="option-input"
-                        data-index="4"
-                        type="text"
-                        placeholder="Movie, show, game..."
-                        maxlength="40"
-                        autocomplete="off"
-                    >
-
-                    <button
-                        class="remove-option"
-                        data-remove="4"
-                        type="button"
-                    >
-                        ×
-                    </button>
-
-                </div>
-
+                Please enter all your options.
             </div>
 
-
-            <!-- PLUS BUTTON -->
 
             <button
-                class="add-option"
-                id="addOption"
+                class="bottom-button"
+                id="proceedButton"
                 type="button"
             >
-                + Add Option
+                Proceed to Ratings →
             </button>
 
-        </div>
+        </section>
 
 
-        <div class="validation" id="optionValidation">
-            Please enter all your options.
-        </div>
+        <!-- =================================================
+             SCREEN 2 — RATINGS
+             ================================================= -->
 
-
-        <button
-            class="bottom-button"
-            id="proceedButton"
-            type="button"
+        <section
+            class="screen rating-screen"
+            id="ratingsScreen"
         >
-            Proceed to Ratings →
-        </button>
 
-    </section>
+            <div class="header">
 
+                <div class="header-icon">
+                    🎬
+                </div>
 
-    <!-- =====================================================
-         SCREEN 2 — RATINGS
-         ===================================================== -->
+                <h1 class="title">
+                    Entertainment Decision Matrix
+                </h1>
 
-    <section
-        class="screen rating-screen"
-        id="ratingsScreen"
-    >
+                <p class="subtitle">
+                    Can't decide? Let the numbers choose.
+                </p>
 
-        <div class="header">
-
-            <div class="header-icon">
-                🎬
             </div>
 
-            <h1 class="title">
-                Entertainment Decision Matrix
-            </h1>
 
-            <p class="subtitle">
-                Can't decide? Let the numbers choose.
-            </p>
-
-        </div>
-
-
-        <div class="step-label">
-            Step 2: Rate Each Option Across Criteria
-        </div>
-
-        <div class="rating-header-note">
-            1 = low · 5 = high
-        </div>
-
-
-        <div
-            class="rating-cards"
-            id="ratingCards"
-        ></div>
-
-
-        <div
-            class="validation"
-            id="ratingValidation"
-        >
-            Please rate every criterion.
-        </div>
-
-
-        <button
-            class="bottom-button"
-            id="findButton"
-            type="button"
-        >
-            ✨ Find My Best Match
-        </button>
-
-    </section>
-
-
-    <!-- =====================================================
-         SCREEN 3 — RESULT
-         ===================================================== -->
-
-    <section
-        class="screen result-screen"
-        id="resultScreen"
-    >
-
-        <div class="header">
-
-            <div class="header-icon">
-                ✨
+            <div class="step-label">
+                Step 2: Rate Each Option Across Criteria
             </div>
 
-            <p class="result-kicker">
-                Your Best Match
-            </p>
 
-            <h1
-                class="result-title"
-                id="winnerName"
-            >
-                Option 1
-            </h1>
+            <div class="rating-header-note">
+                1 = low · 5 = high
+            </div>
+
 
             <div
-                class="result-match"
-                id="winnerMatch"
-            >
-                90% MATCH
-            </div>
-
-        </div>
-
-
-        <div class="result-body">
-
-            <p class="result-breakdown-title">
-                Score Breakdown
-            </p>
-
-            <div
-                class="result-breakdown"
-                id="resultBreakdown"
+                class="rating-cards"
+                id="ratingCards"
             ></div>
 
 
-            <div class="why-box">
+            <div
+                class="validation"
+                id="ratingValidation"
+            >
+                Please rate every criterion.
+            </div>
 
-                <p class="why-title">
-                    Why this one?
+
+            <button
+                class="bottom-button"
+                id="findButton"
+                type="button"
+            >
+                ✨ Find My Best Match
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             SCREEN 3 — RESULT
+             ================================================= -->
+
+        <section
+            class="screen result-screen"
+            id="resultScreen"
+        >
+
+            <div class="header">
+
+                <div class="header-icon">
+                    ✨
+                </div>
+
+                <p class="result-kicker">
+                    Your Best Match
                 </p>
 
-                <p
-                    class="why-text"
-                    id="whyText"
-                ></p>
+                <h1
+                    class="result-title"
+                    id="winnerName"
+                >
+                    Option 1
+                </h1>
+
+                <div
+                    class="result-match"
+                    id="winnerMatch"
+                >
+                    90% MATCH
+                </div>
 
             </div>
 
-        </div>
+
+            <div class="result-body">
+
+                <p class="result-breakdown-title">
+                    Score Breakdown
+                </p>
 
 
-        <div class="result-actions">
+                <div
+                    class="result-breakdown"
+                    id="resultBreakdown"
+                ></div>
 
-            <button
-                class="result-action"
-                id="backToRatings"
-                type="button"
-            >
-                ← Edit Ratings
-            </button>
 
-            <button
-                class="result-action"
-                id="startOver"
-                type="button"
-            >
-                ↻ Start Over
-            </button>
+                <div class="why-box">
 
-        </div>
+                    <p class="why-title">
+                        Why this one?
+                    </p>
 
-    </section>
+                    <p
+                        class="why-text"
+                        id="whyText"
+                    ></p>
 
+                </div>
+
+            </div>
+
+
+            <div class="result-actions">
+
+                <button
+                    class="result-action"
+                    id="backToRatings"
+                    type="button"
+                >
+                    ← Edit Ratings
+                </button>
+
+                <button
+                    class="result-action"
+                    id="startOver"
+                    type="button"
+                >
+                    ↻ Start Over
+                </button>
+
+            </div>
+
+        </section>
+
+
+    </div>
 
 </div>
 
@@ -1716,27 +1776,33 @@ let optionCount = 3;
 
 let ratings = {};
 
+
 const criteria = [
+
     {
         key: "mood",
         icon: "⭐",
         name: "Mood Fit"
     },
+
     {
         key: "runtime",
         icon: "⏱",
         name: "Runtime"
     },
+
     {
         key: "interest",
         icon: "♥",
         name: "Interest"
     },
+
     {
         key: "energy",
         icon: "🧠",
         name: "Energy"
     }
+
 ];
 
 
@@ -1745,37 +1811,59 @@ const criteria = [
    ========================================================= */
 
 const optionsScreen =
-    document.getElementById("optionsScreen");
+    document.getElementById(
+        "optionsScreen"
+    );
 
 const ratingsScreen =
-    document.getElementById("ratingsScreen");
+    document.getElementById(
+        "ratingsScreen"
+    );
 
 const resultScreen =
-    document.getElementById("resultScreen");
+    document.getElementById(
+        "resultScreen"
+    );
 
 const addOption =
-    document.getElementById("addOption");
+    document.getElementById(
+        "addOption"
+    );
 
 const proceedButton =
-    document.getElementById("proceedButton");
+    document.getElementById(
+        "proceedButton"
+    );
 
 const findButton =
-    document.getElementById("findButton");
+    document.getElementById(
+        "findButton"
+    );
 
 const ratingCards =
-    document.getElementById("ratingCards");
+    document.getElementById(
+        "ratingCards"
+    );
 
 const optionValidation =
-    document.getElementById("optionValidation");
+    document.getElementById(
+        "optionValidation"
+    );
 
 const ratingValidation =
-    document.getElementById("ratingValidation");
+    document.getElementById(
+        "ratingValidation"
+    );
 
 const backToRatings =
-    document.getElementById("backToRatings");
+    document.getElementById(
+        "backToRatings"
+    );
 
 const startOver =
-    document.getElementById("startOver");
+    document.getElementById(
+        "startOver"
+    );
 
 
 /* =========================================================
@@ -1786,19 +1874,25 @@ function showScreen(screen) {
 
     document
         .querySelectorAll(".screen")
-        .forEach(item => {
+        .forEach(
+            item => {
 
-            item.classList.remove("active");
+                item.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
-    screen.classList.add("active");
+    screen.classList.add(
+        "active"
+    );
 }
 
 
 /* =========================================================
-   OPTION ROWS
+   GET INPUT
    ========================================================= */
 
 function getInput(index) {
@@ -1825,7 +1919,10 @@ addOption.addEventListener(
     "click",
     () => {
 
-        if (optionCount >= 5) {
+        if (
+            optionCount >= 5
+        ) {
+
             return;
         }
 
@@ -1843,7 +1940,9 @@ addOption.addEventListener(
             "grid";
 
 
-        if (optionCount >= 5) {
+        if (
+            optionCount >= 5
+        ) {
 
             addOption.style.display =
                 "none";
@@ -1860,64 +1959,68 @@ addOption.addEventListener(
 
 document
     .querySelectorAll(".remove-option")
-    .forEach(button => {
+    .forEach(
+        button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const index =
-                    Number(
-                        button.dataset.remove
-                    );
+                    const index =
+                        Number(
+                            button.dataset.remove
+                        );
 
 
-                /*
-                 * Shift later options upward.
-                 */
+                    /*
+                     * Shift later options
+                     * upward.
+                     */
 
-                for (
-                    let i = index;
-                    i < optionCount - 1;
-                    i++
-                ) {
+                    for (
+                        let i = index;
+                        i < optionCount - 1;
+                        i++
+                    ) {
 
-                    getInput(i).value =
-                        getInput(i + 1).value;
+                        getInput(i).value =
+                            getInput(i + 1).value;
+
+                    }
+
+
+                    getInput(
+                        optionCount - 1
+                    ).value =
+                        "";
+
+
+                    document
+                        .getElementById(
+                            `optionRow${optionCount}`
+                        )
+                        .style.display =
+                        "none";
+
+
+                    optionCount--;
+
+
+                    addOption.style.display =
+                        "block";
+
+
+                    delete ratings[index];
 
                 }
+            );
 
-
-                getInput(
-                    optionCount - 1
-                ).value = "";
-
-
-                document
-                    .getElementById(
-                        `optionRow${optionCount}`
-                    )
-                    .style.display =
-                    "none";
-
-
-                optionCount--;
-
-
-                addOption.style.display =
-                    "block";
-
-
-                delete ratings[index];
-
-            }
-        );
-
-    });
+        }
+    );
 
 
 /* =========================================================
-   OPTION VALIDATION
+   VALIDATE OPTIONS
    ========================================================= */
 
 function validateOptions() {
@@ -1935,13 +2038,17 @@ function validateOptions() {
             optionValidation.textContent =
                 `Please enter Option ${i + 1}.`;
 
+
             optionValidation.classList.add(
                 "show"
             );
 
+
             getInput(i).focus();
 
+
             return false;
+
         }
 
     }
@@ -1950,6 +2057,7 @@ function validateOptions() {
     optionValidation.classList.remove(
         "show"
     );
+
 
     return true;
 }
@@ -1962,6 +2070,7 @@ function validateOptions() {
 function initializeRatings() {
 
     ratings = {};
+
 
     for (
         let i = 0;
@@ -1987,12 +2096,13 @@ function initializeRatings() {
 
 
 /* =========================================================
-   BUILD RATING CARDS
+   RENDER RATING CARDS
    ========================================================= */
 
 function renderRatingCards() {
 
-    ratingCards.innerHTML = "";
+    ratingCards.innerHTML =
+        "";
 
 
     for (
@@ -2002,65 +2112,95 @@ function renderRatingCards() {
     ) {
 
         const card =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         card.className =
             "rating-card";
 
 
         const name =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         name.className =
             "rating-card-name";
+
 
         name.textContent =
             getOptionName(i);
 
 
-        card.appendChild(name);
+        card.appendChild(
+            name
+        );
 
 
         criteria.forEach(
             criterion => {
 
                 const row =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 row.className =
                     "criterion-row";
 
 
                 const label =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 label.className =
                     "criterion-name";
 
 
                 const icon =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 icon.className =
                     "criterion-icon";
+
 
                 icon.textContent =
                     criterion.icon;
 
 
                 const text =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 text.textContent =
                     criterion.name;
 
 
-                label.appendChild(icon);
-                label.appendChild(text);
+                label.appendChild(
+                    icon
+                );
+
+                label.appendChild(
+                    text
+                );
 
 
                 const buttons =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 buttons.className =
                     "rating-buttons";
@@ -2073,13 +2213,18 @@ function renderRatingCards() {
                 ) {
 
                     const button =
-                        document.createElement("button");
+                        document.createElement(
+                            "button"
+                        );
+
 
                     button.type =
                         "button";
 
+
                     button.className =
                         "rating-button";
+
 
                     button.textContent =
                         value;
@@ -2141,16 +2286,26 @@ function renderRatingCards() {
                 }
 
 
-                row.appendChild(label);
-                row.appendChild(buttons);
+                row.appendChild(
+                    label
+                );
 
-                card.appendChild(row);
+                row.appendChild(
+                    buttons
+                );
+
+
+                card.appendChild(
+                    row
+                );
 
             }
         );
 
 
-        ratingCards.appendChild(card);
+        ratingCards.appendChild(
+            card
+        );
 
     }
 
@@ -2170,13 +2325,13 @@ proceedButton.addEventListener(
         ) {
 
             return;
-
         }
 
 
         initializeRatings();
 
         renderRatingCards();
+
 
         showScreen(
             ratingsScreen
@@ -2210,9 +2365,11 @@ function validateRatings() {
                 ratingValidation.textContent =
                     `Please rate ${getOptionName(i)} for ${criterion.name}.`;
 
+
                 ratingValidation.classList.add(
                     "show"
                 );
+
 
                 return false;
 
@@ -2227,12 +2384,13 @@ function validateRatings() {
         "show"
     );
 
+
     return true;
 }
 
 
 /* =========================================================
-   CALCULATE
+   CALCULATE RESULTS
    ========================================================= */
 
 function calculateResults() {
@@ -2291,22 +2449,27 @@ function generateExplanation(
 ) {
 
     const values = [
+
         {
             name: "mood",
             score: winner.ratings.mood
         },
+
         {
             name: "runtime",
             score: winner.ratings.runtime
         },
+
         {
             name: "interest",
             score: winner.ratings.interest
         },
+
         {
             name: "energy",
             score: winner.ratings.energy
         }
+
     ];
 
 
@@ -2322,7 +2485,8 @@ function generateExplanation(
         values
             .filter(
                 item =>
-                    item.score === highest
+                    item.score ===
+                    highest
             )
             .map(
                 item => item.name
@@ -2374,7 +2538,8 @@ function showResult() {
     const highest =
         Math.max(
             ...results.map(
-                item => item.score
+                item =>
+                    item.score
             )
         );
 
@@ -2382,7 +2547,8 @@ function showResult() {
     const winners =
         results.filter(
             item =>
-                item.score === highest
+                item.score ===
+                highest
         );
 
 
@@ -2408,14 +2574,18 @@ function showResult() {
         );
 
 
-    breakdown.innerHTML = "";
+    breakdown.innerHTML =
+        "";
 
 
     criteria.forEach(
         criterion => {
 
             const box =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             box.className =
                 "result-score";
@@ -2474,7 +2644,6 @@ findButton.addEventListener(
         ) {
 
             return;
-
         }
 
 
@@ -2485,7 +2654,7 @@ findButton.addEventListener(
 
 
 /* =========================================================
-   BACK TO RATINGS
+   EDIT RATINGS
    ========================================================= */
 
 backToRatings.addEventListener(
@@ -2524,8 +2693,12 @@ startOver.addEventListener(
             const input =
                 getInput(i);
 
+
             if (input) {
-                input.value = "";
+
+                input.value =
+                    "";
+
             }
 
         }
@@ -2535,6 +2708,7 @@ startOver.addEventListener(
             "optionRow4"
         ).style.display =
             "none";
+
 
         document.getElementById(
             "optionRow5"
@@ -2549,6 +2723,7 @@ startOver.addEventListener(
         optionValidation.classList.remove(
             "show"
         );
+
 
         ratingValidation.classList.remove(
             "show"
