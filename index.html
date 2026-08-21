@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What Should I Watch?</title>
+    <title>Entertainment Decision Matrix</title>
     <style>
         /* Notion Theme Integration */
         :root {
             --notion-bg: #ffffff;
-            --beige-frame: #F4F0EA; /* Fallback for background.png */
+            --beige-frame: #F4F0EA;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -53,10 +53,10 @@
             right: 5.873%;
             top: 8.054%;
             bottom: 8.054%;
-            background-color: #103525;
+            background-color: #103526;
             border-radius: 12px;
             color: #F4F0EA;
-            padding: 18px 22px;
+            padding: 16px 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -64,14 +64,32 @@
             overflow: hidden;
         }
 
+        /* Scrollable container inside inner widget */
+        .widget-content-scroll {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 2px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(244, 240, 234, 0.2) transparent;
+        }
+
+        .widget-content-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .widget-content-scroll::-webkit-scrollbar-thumb {
+            background: rgba(244, 240, 234, 0.2);
+            border-radius: 4px;
+        }
+
         /* Header */
         .widget-header {
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
         }
 
         .widget-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             letter-spacing: 0.5px;
             color: #F4F0EA;
@@ -79,124 +97,174 @@
         }
 
         .widget-subtitle {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #A3B8B0;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
-        /* Selection Interface Grid */
-        .selection-container {
+        .widget-instructions {
+            font-size: 0.62rem;
+            color: #D4AF37;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* Options Setup View */
+        .setup-section {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin: 4px 0;
+            margin-bottom: 12px;
         }
 
-        .selection-group {
+        .option-input-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 8px;
         }
 
-        .group-label {
+        .option-label-tag {
             font-size: 0.65rem;
             font-weight: 700;
-            letter-spacing: 1px;
-            color: #D4AF37; /* Restrained gold accent */
+            color: #C2D0C9;
             width: 70px;
             flex-shrink: 0;
+            letter-spacing: 0.5px;
         }
 
-        .pill-options {
-            display: flex;
-            gap: 4px;
+        .option-input {
             flex-grow: 1;
-            justify-content: flex-end;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .pill-options::-webkit-scrollbar {
-            display: none;
-        }
-
-        .pill {
-            background-color: rgba(244, 240, 234, 0.07);
-            border: 1px solid rgba(244, 240, 234, 0.12);
-            color: #C2D0C9;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.68rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .pill:hover {
-            background-color: rgba(244, 240, 234, 0.15);
+            background: rgba(244, 240, 234, 0.07);
+            border: 1px solid rgba(244, 240, 234, 0.15);
+            border-radius: 6px;
+            padding: 5px 10px;
             color: #FFFFFF;
+            font-size: 0.75rem;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-        .pill.active {
-            background-color: #F4F0EA;
+        .option-input:focus {
+            border-color: #D4AF37;
+        }
+
+        .btn-remove {
+            background: transparent;
+            border: none;
+            color: #E0A96D;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .btn-remove:hover {
+            background: rgba(224, 169, 109, 0.1);
+        }
+
+        .add-option-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .btn-add {
+            background: rgba(244, 240, 234, 0.08);
+            border: 1px dashed rgba(244, 240, 234, 0.3);
+            color: #F4F0EA;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-add:hover {
+            background: rgba(244, 240, 234, 0.15);
+        }
+
+        /* Ratings Matrix View */
+        .ratings-section {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .rating-card {
+            background: rgba(244, 240, 234, 0.04);
+            border: 1px solid rgba(244, 240, 234, 0.08);
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+
+        .rating-card-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 6px;
+            border-bottom: 1px solid rgba(244, 240, 234, 0.06);
+            padding-bottom: 3px;
+        }
+
+        .criteria-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .criteria-label {
+            font-size: 0.65rem;
+            color: #C2D0C9;
+        }
+
+        .pills-rating {
+            display: flex;
+            gap: 3px;
+        }
+
+        .rate-pill {
+            background: rgba(244, 240, 234, 0.06);
+            border: 1px solid rgba(244, 240, 234, 0.12);
+            color: #A3B8B0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .rate-pill:hover {
+            background: rgba(244, 240, 234, 0.2);
+            color: #FFF;
+        }
+
+        .rate-pill.active {
+            background: #F4F0EA;
             color: #0D2F22;
             border-color: #F4F0EA;
-            font-weight: 500;
+            font-weight: 700;
         }
 
         /* Footer Actions */
         .widget-footer {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-top: 4px;
-        }
-
-        .action-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-find {
-            flex-grow: 1;
-            background-color: #D4AF37;
-            color: #0D2F22;
-            border: none;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: opacity 0.2s ease, transform 0.1s ease;
-        }
-
-        .btn-find:hover {
-            opacity: 0.9;
-        }
-
-        .btn-find:active {
-            transform: scale(0.98);
-        }
-
-        .btn-surprise {
-            background-color: transparent;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            color: #D4AF37;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .btn-surprise:hover {
-            background-color: rgba(212, 175, 55, 0.1);
+            gap: 4px;
+            margin-top: 6px;
+            padding-top: 4px;
+            border-top: 1px solid rgba(244, 240, 234, 0.08);
         }
 
         .error-message {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             color: #E0A96D;
             text-align: center;
             height: 12px;
@@ -207,7 +275,29 @@
             visibility: visible;
         }
 
-        /* Result State */
+        .btn-main {
+            background-color: #D4AF37;
+            color: #0D2F22;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn-main:hover {
+            opacity: 0.9;
+        }
+
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+
+        /* Result View State */
         .result-state {
             display: none;
             flex-direction: column;
@@ -227,33 +317,51 @@
             font-size: 0.6rem;
             letter-spacing: 1.5px;
             color: #D4AF37;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             font-weight: 700;
         }
 
-        .result-icon {
-            font-size: 1.5rem;
-            margin-bottom: 2px;
-        }
-
-        .result-main {
-            font-size: 1rem;
+        .result-winner {
+            font-size: 1.1rem;
             font-family: Georgia, serif;
             color: #FFFFFF;
-            margin-bottom: 8px;
-            line-height: 1.3;
-            max-width: 90%;
+            margin-bottom: 1px;
         }
 
-        .result-perfect-for {
+        .result-percentage {
             font-size: 0.72rem;
             color: #A3B8B0;
+            margin-bottom: 8px;
+        }
+
+        .result-breakdown {
+            font-size: 0.65rem;
+            color: #C2D0C9;
             background: rgba(244, 240, 234, 0.05);
             padding: 6px 12px;
             border-radius: 6px;
             border-left: 2px solid #D4AF37;
-            margin-bottom: 12px;
-            max-width: 90%;
+            margin-bottom: 8px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+
+        .breakdown-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-explanation {
+            font-size: 0.65rem;
+            color: #A3B8B0;
+            margin-bottom: 10px;
+            max-width: 95%;
+            line-height: 1.3;
         }
 
         .btn-reset {
@@ -262,21 +370,13 @@
             color: #F4F0EA;
             padding: 6px 16px;
             border-radius: 6px;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: background 0.2s;
         }
 
         .btn-reset:hover {
             background-color: rgba(244, 240, 234, 0.2);
-        }
-
-        /* Utility view switchers */
-        .view {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
         }
     </style>
 </head>
@@ -285,225 +385,297 @@
     <div class="widget-outer-container">
         <div class="widget-inner">
             
-            <!-- Selection View -->
-            <div id="selectionView" class="view">
-                <div class="widget-header">
-                    <h1 class="widget-title">🎬 What Should I Watch?</h1>
-                    <p class="widget-subtitle">Tell us what you're in the mood for.</p>
-                </div>
-
-                <div class="selection-container">
-                    <!-- Mood -->
-                    <div class="selection-group">
-                        <span class="group-label">MOOD</span>
-                        <div class="pill-options" data-category="mood">
-                            <button class="pill" data-value="Cozy">Cozy</button>
-                            <button class="pill" data-value="Funny">Funny</button>
-                            <button class="pill" data-value="Thrilling">Thrilling</button>
-                            <button class="pill" data-value="Emotional">Emotional</button>
-                            <button class="pill" data-value="Mindless">Mindless</button>
-                        </div>
-                    </div>
-
-                    <!-- Time -->
-                    <div class="selection-group">
-                        <span class="group-label">TIME</span>
-                        <div class="pill-options" data-category="time">
-                            <button class="pill" data-value="30 MIN">30 MIN</button>
-                            <button class="pill" data-value="1 HR">1 HR</button>
-                            <button class="pill" data-value="2 HRS">2 HRS</button>
-                            <button class="pill" data-value="3+ HRS">3+ HRS</button>
-                        </div>
-                    </div>
-
-                    <!-- Format -->
-                    <div class="selection-group">
-                        <span class="group-label">FORMAT</span>
-                        <div class="pill-options" data-category="format">
-                            <button class="pill" data-value="Movie">Movie</button>
-                            <button class="pill" data-value="Show">Show</button>
-                            <button class="pill" data-value="Anything">Anything</button>
-                        </div>
-                    </div>
-
-                    <!-- Energy -->
-                    <div class="selection-group">
-                        <span class="group-label">ENERGY</span>
-                        <div class="pill-options" data-category="energy">
-                            <button class="pill" data-value="Low Effort">Low Effort</button>
-                            <button class="pill" data-value="Somewhat Invested">Somewhat Invested</button>
-                            <button class="pill" data-value="Fully Invested">Fully Invested</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="widget-footer">
-                    <div id="errorMsg" class="error-message">Please make a selection in all categories.</div>
-                    <div class="action-row">
-                        <button id="findBtn" class="btn-find">✨ FIND MY WATCH</button>
-                        <button id="surpriseBtn" class="btn-surprise" title="Surprise Me">🎲</button>
-                    </div>
-                </div>
+            <!-- Header (shared across interactive steps) -->
+            <div class="widget-header">
+                <h1 class="widget-title">🎬 Entertainment Decision Matrix</h1>
+                <p class="widget-subtitle">Can't decide? Let the numbers choose.</p>
+                <div id="widgetInstructions" class="widget-instructions">Step 1: Enter 3 to 5 options</div>
             </div>
 
-            <!-- Result View -->
-            <div id="resultView" class="result-state">
-                <div class="result-badge">TONIGHT CALLS FOR</div>
-                <div id="resultIcon" class="result-icon">🍿</div>
-                <div id="resultMain" class="result-main">A funny, low-effort movie</div>
-                <div id="resultPerfect" class="result-perfect-for">Perfect for: winding down without having to think too hard.</div>
-                <button id="resetBtn" class="btn-reset">↻ RESET</button>
+            <!-- Main Interactive Scroll Area -->
+            <div class="widget-content-scroll" id="scrollArea">
+                
+                <!-- Setup Options View -->
+                <div id="setupView" class="setup-section">
+                    <div class="option-input-row" data-index="0">
+                        <span class="option-label-tag">OPTION 1</span>
+                        <input type="text" class="option-input" placeholder="e.g. Inception" value="Movie A">
+                    </div>
+                    <div class="option-input-row" data-index="1">
+                        <span class="option-label-tag">OPTION 2</span>
+                        <input type="text" class="option-input" placeholder="e.g. Succession" value="Show B">
+                    </div>
+                    <div class="option-input-row" data-index="2">
+                        <span class="option-label-tag">OPTION 3</span>
+                        <input type="text" class="option-input" placeholder="e.g. Stardew Valley" value="Game C">
+                    </div>
+                    <div class="add-option-row">
+                        <button id="addOptionBtn" class="btn-add">+ Add Option</button>
+                    </div>
+                </div>
+
+                <!-- Ratings Matrix View -->
+                <div id="ratingsView" class="ratings-section">
+                    <!-- Dynamically populated via JS -->
+                </div>
+
+                <!-- Result View State -->
+                <div id="resultView" class="result-state">
+                    <div class="result-badge">✨ YOUR BEST MATCH</div>
+                    <div id="resultWinner" class="result-winner">Movie B</div>
+                    <div id="resultPercentage" class="result-percentage">92% MATCH</div>
+                    <div id="resultBreakdown" class="result-breakdown">
+                        <!-- Populated via JS -->
+                    </div>
+                    <div id="resultExplanation" class="result-explanation">It scored highest for mood, interest, and overall fit with your available energy.</div>
+                    <button id="resetBtn" class="btn-reset">↻ RESET</button>
+                </div>
+
+            </div>
+
+            <!-- Footer Controls -->
+            <div class="widget-footer" id="widgetFooter">
+                <div id="errorMsg" class="error-message">Please fill in valid option names and complete all ratings.</div>
+                <button id="mainActionBtn" class="btn-main">PROCEED TO RATINGS →</button>
             </div>
 
         </div>
     </div>
 
     <script>
-        // State management
-        const state = {
-            mood: null,
-            time: null,
-            format: null,
-            energy: null
-        };
+        // Application State
+        let currentStep = 1; // 1: Setup Options, 2: Ratings Matrix
+        let options = [
+            { name: "Movie A", mood: 0, runtime: 0, interest: 0, energy: 0 },
+            { name: "Show B", mood: 0, runtime: 0, interest: 0, energy: 0 },
+            { name: "Game C", mood: 0, runtime: 0, interest: 0, energy: 0 }
+        ];
 
         // DOM Elements
-        const selectionView = document.getElementById('selectionView');
+        const setupView = document.getElementById('setupView');
+        const ratingsView = document.getElementById('ratingsView');
         const resultView = document.getElementById('resultView');
-        const findBtn = document.getElementById('findBtn');
-        const surpriseBtn = document.getElementById('surpriseBtn');
-        const resetBtn = document.getElementById('resetBtn');
+        const widgetInstructions = document.getElementById('widgetInstructions');
+        const mainActionBtn = document.getElementById('mainActionBtn');
+        const addOptionBtn = document.getElementById('addOptionBtn');
         const errorMsg = document.getElementById('errorMsg');
-        
-        const resultIcon = document.getElementById('resultIcon');
-        const resultMain = document.getElementById('resultMain');
-        const resultPerfect = document.getElementById('resultPerfect');
+        const widgetFooter = document.getElementById('widgetFooter');
 
-        // Handle Pill Selections
-        document.querySelectorAll('.pill-options').forEach(group => {
-            const category = group.dataset.category;
-            group.querySelectorAll('.pill').forEach(pill => {
-                pill.addEventListener('click', () => {
-                    group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-                    pill.classList.add('active');
-                    state[category] = pill.dataset.value;
+        // Update Options List UI
+        function renderSetupOptions() {
+            setupView.innerHTML = '';
+            options.forEach((opt, index) => {
+                const row = document.createElement('div');
+                row.className = 'option-input-row';
+                
+                const label = document.createElement('span');
+                label.className = 'option-label-tag';
+                label.textContent = `OPTION ${index + 1}`;
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'option-input';
+                input.value = opt.name;
+                input.placeholder = `Option ${index + 1}`;
+                input.addEventListener('input', (e) => {
+                    options[index].name = e.target.value.trim();
                     errorMsg.classList.remove('visible');
                 });
+
+                row.appendChild(label);
+                row.appendChild(input);
+
+                // Allow deletion for options 4 and 5
+                if (index >= 3) {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'btn-remove';
+                    removeBtn.textContent = '✕';
+                    removeBtn.title = 'Remove Option';
+                    removeBtn.addEventListener('click', () => {
+                        options.splice(index, 1);
+                        renderSetupOptions();
+                    });
+                    row.appendChild(removeBtn);
+                }
+
+                setupView.appendChild(row);
             });
-        });
 
-        // Recommendation Engine Database / Logic
-        function generateRecommendation() {
-            const { mood, time, format, energy } = state;
-            
-            // Map icons based on mood/format
-            let icon = '🍿';
-            if (mood === 'Cozy') icon = '☕';
-            if (mood === 'Thrilling') icon = '⚡';
-            if (mood === 'Emotional') icon = '🌙';
-            if (mood === 'Funny') icon = '✨';
-            if (format === 'Show') icon = '📺';
-
-            // Construct contextual description
-            let description = `A ${mood.toLowerCase()}, `;
-            if (energy === 'Low Effort') {
-                description += `low-effort ${format.toLowerCase()}`;
-            } else if (energy === 'Fully Invested') {
-                description += `gripping, high-immersion ${format.toLowerCase()}`;
-            } else {
-                description += `engaging ${format.toLowerCase()}`;
+            // Add button row back
+            const addRow = document.createElement('div');
+            addRow.className = 'add-option-row';
+            if (options.length < 5) {
+                addRow.appendChild(addOptionBtn);
             }
-
-            // Construct "Perfect for" context
-            let perfectFor = "winding down and enjoying the moment.";
-            if (mood === 'Cozy' && energy === 'Low Effort') {
-                perfectFor = "a quiet little wind-down wrapped in a blanket.";
-            } else if (mood === 'Thrilling' && energy === 'Fully Invested') {
-                perfectFor = "getting completely pulled into a suspenseful story.";
-            } else if (mood === 'Funny' && time === '30 MIN') {
-                perfectFor = "some quick laughs without committing to a full feature.";
-            } else if (mood === 'Emotional' && energy === 'Fully Invested') {
-                perfectFor = "an immersive experience that hits right in the feels.";
-            } else if (mood === 'Mindless') {
-                perfectFor = "turning off your brain and enjoying pure entertainment.";
-            } else {
-                if (time === '3+ HRS') perfectFor = "an epic, dedicated session.";
-                else if (time === '30 MIN') perfectFor = "a fast-paced break in your day.";
-                else perfectFor = "relaxing after a long day.";
-            }
-
-            return {
-                icon,
-                main: description,
-                perfect: `Perfect for: ${perfectFor}`
-            };
+            setupView.appendChild(addRow);
         }
 
-        // Find My Watch Action
-        findBtn.addEventListener('click', () => {
-            if (!state.mood || !state.time || !state.format || !state.energy) {
-                errorMsg.classList.add('visible');
-                return;
+        // Add Option Handler
+        addOptionBtn.addEventListener('click', () => {
+            if (options.length < 5) {
+                options.push({ name: `Option ${options.length + 1}`, mood: 0, runtime: 0, interest: 0, energy: 0 });
+                renderSetupOptions();
             }
-
-            const rec = generateRecommendation();
-            resultIcon.textContent = rec.icon;
-            resultMain.textContent = rec.main;
-            resultPerfect.textContent = rec.perfect;
-
-            selectionView.style.display = 'none';
-            resultView.style.display = 'flex';
         });
 
-        // Surprise Me Action
-        surpriseBtn.addEventListener('click', () => {
-            const moods = ['Cozy', 'Funny', 'Thrilling', 'Emotional', 'Mindless'];
-            const times = ['30 MIN', '1 HR', '2 HRS', '3+ HRS'];
-            const formats = ['Movie', 'Show', 'Anything'];
-            const energies = ['Low Effort', 'Somewhat Invested', 'Fully Invested'];
+        // Render Rating Matrix View
+        function renderRatingsMatrix() {
+            ratingsView.innerHTML = '';
+            options.forEach((opt, optIdx) => {
+                const card = document.createElement('div');
+                card.className = 'rating-card';
 
-            state.mood = moods[Math.floor(Math.random() * moods.length)];
-            state.time = times[Math.floor(Math.random() * times.length)];
-            state.format = formats[Math.floor(Math.random() * formats.length)];
-            state.energy = energies[Math.floor(Math.random() * energies.length)];
+                const title = document.createElement('div');
+                title.className = 'rating-card-title';
+                title.textContent = opt.name || `Option ${optIdx + 1}`;
+                card.appendChild(title);
 
-            // Visually reflect random choices
-            ['mood', 'time', 'format', 'energy'].forEach(cat => {
-                const group = document.querySelector(`[data-category="${cat}"]`);
-                group.querySelectorAll('.pill').forEach(pill => {
-                    if (pill.dataset.value === state[cat]) {
-                        pill.classList.add('active');
-                    } else {
-                        pill.classList.remove('active');
+                const criteriaList = [
+                    { key: 'mood', label: '⭐ Mood Fit' },
+                    { key: 'runtime', label: '⏱️ Runtime' },
+                    { key: 'interest', label: '❤️ Interest' },
+                    { key: 'energy', label: '🧠 Energy (5=Easy)' }
+                ];
+
+                criteriaList.forEach(crit => {
+                    const row = document.createElement('div');
+                    row.className = 'criteria-row';
+
+                    const critLabel = document.createElement('span');
+                    critLabel.className = 'criteria-label';
+                    critLabel.textContent = crit.label;
+                    row.appendChild(critLabel);
+
+                    const pillsContainer = document.createElement('div');
+                    pillsContainer.className = 'pills-rating';
+
+                    for (let i = 1; i <= 5; i++) {
+                        const pill = document.createElement('button');
+                        pill.type = 'button';
+                        pill.className = 'rate-pill';
+                        pill.textContent = i;
+                        if (opt[crit.key] === i) {
+                            pill.classList.add('active');
+                        }
+
+                        pill.addEventListener('click', () => {
+                            options[optIdx][crit.key] = i;
+                            pillsContainer.querySelectorAll('.rate-pill').forEach(p => p.classList.remove('active'));
+                            pill.classList.add('active');
+                            errorMsg.classList.remove('visible');
+                        });
+
+                        pillsContainer.appendChild(pill);
                     }
+
+                    row.appendChild(pillsContainer);
+                    card.appendChild(row);
                 });
+
+                ratingsView.appendChild(card);
             });
+        }
 
-            errorMsg.classList.remove('visible');
+        // Main Action Button Controller
+        mainActionBtn.addEventListener('click', () => {
+            if (currentStep === 1) {
+                // Validate options
+                const validOptions = options.filter(o => o.name.length > 0);
+                if (validOptions.length < 3) {
+                    errorMsg.textContent = "Please enter at least 3 valid options.";
+                    errorMsg.classList.add('visible');
+                    return;
+                }
+                // Sync option names
+                document.querySelectorAll('.option-input').forEach((input, idx) => {
+                    if (options[idx]) options[idx].name = input.value.trim() || `Option ${idx + 1}`;
+                });
 
-            // Generate and show result directly
-            const rec = generateRecommendation();
-            resultIcon.textContent = rec.icon;
-            resultMain.textContent = rec.main;
-            resultPerfect.textContent = rec.perfect;
+                // Transition to Step 2
+                currentStep = 2;
+                setupView.style.display = 'none';
+                ratingsView.style.display = 'flex';
+                widgetInstructions.textContent = "Step 2: Rate each option across criteria";
+                mainActionBtn.textContent = "✨ FIND MY BEST MATCH";
+                renderRatingsMatrix();
+                errorMsg.classList.remove('visible');
+            } else if (currentStep === 2) {
+                // Validate ratings
+                for (let opt of options) {
+                    if (!opt.mood || !opt.runtime || !opt.interest || !opt.energy) {
+                        errorMsg.textContent = "Please complete all ratings for every option.";
+                        errorMsg.classList.add('visible');
+                        return;
+                    }
+                }
 
-            selectionView.style.display = 'none';
-            resultView.style.display = 'flex';
+                // Calculate Scores
+                let scoredOptions = options.map(opt => {
+                    const totalScore = opt.mood + opt.runtime + opt.interest + opt.energy;
+                    const percentage = Math.round((totalScore / 20) * 100);
+                    return { ...opt, totalScore, percentage };
+                });
+
+                // Sort descending by score
+                scoredOptions.sort((a, b) => b.totalScore - a.totalScore);
+
+                const topWinner = scoredOptions[0];
+                const ties = scoredOptions.filter(o => o.totalScore === topWinner.totalScore);
+
+                // Populate Result View
+                const resultWinner = document.getElementById('resultWinner');
+                const resultPercentage = document.getElementById('resultPercentage');
+                const resultBreakdown = document.getElementById('resultBreakdown');
+                const resultExplanation = document.getElementById('resultExplanation');
+
+                if (ties.length > 1) {
+                    const tieNames = ties.map(t => t.name).join(' and ');
+                    resultWinner.textContent = "It's a tie!";
+                    resultPercentage.textContent = `${tieNames} both match at ${topWinner.percentage}%`;
+                } else {
+                    resultWinner.textContent = topWinner.name;
+                    resultPercentage.textContent = `${topWinner.percentage}% MATCH`;
+                }
+
+                resultBreakdown.innerHTML = `
+                    <div class="breakdown-row"><span>⭐ Mood Fit</span><span>${topWinner.mood}/5</span></div>
+                    <div class="breakdown-row"><span>⏱️ Runtime</span><span>${topWinner.runtime}/5</span></div>
+                    <div class="breakdown-row"><span>❤️ Interest</span><span>${topWinner.interest}/5</span></div>
+                    <div class="breakdown-row"><span>🧠 Energy Fit</span><span>${topWinner.energy}/5</span></div>
+                `;
+
+                resultExplanation.textContent = `${topWinner.name} scored highest across your weighted preference criteria, delivering the ideal balance for tonight.`;
+
+                // Show Result Screen
+                ratingsView.style.display = 'none';
+                widgetInstructions.style.display = 'none';
+                widgetFooter.style.display = 'none';
+                resultView.style.display = 'flex';
+            }
         });
 
-        // Reset Action
-        resetBtn.addEventListener('click', () => {
-            state.mood = null;
-            state.time = null;
-            state.format = null;
-            state.energy = null;
+        // Reset Action Handler
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            currentStep = 1;
+            options = [
+                { name: "Movie A", mood: 0, runtime: 0, interest: 0, energy: 0 },
+                { name: "Show B", mood: 0, runtime: 0, interest: 0, energy: 0 },
+                { name: "Game C", mood: 0, runtime: 0, interest: 0, energy: 0 }
+            ];
 
-            document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
-            errorMsg.classList.remove('visible');
+            renderSetupOptions();
 
             resultView.style.display = 'none';
-            selectionView.style.display = 'flex';
+            setupView.style.display = 'flex';
+            widgetInstructions.style.display = 'block';
+            widgetFooter.style.display = 'flex';
+            widgetInstructions.textContent = "Step 1: Enter 3 to 5 options";
+            mainActionBtn.textContent = "PROCEED TO RATINGS →";
+            errorMsg.classList.remove('visible');
         });
+
+        // Initial setup render
+        renderSetupOptions();
     </script>
 </body>
 </html>
