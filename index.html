@@ -1,681 +1,3058 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entertainment Decision Matrix</title>
-    <style>
-        /* Notion Theme Integration */
-        :root {
-            --notion-bg: #ffffff;
-            --beige-frame: #F4F0EA;
-        }
+<meta charset="UTF-8">
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --notion-bg: #191919;
-            }
-        }
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+<title>Entertainment Decision Matrix</title>
 
-        body {
-            background-color: var(--notion-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
+<style>
 
-        /* Outer Composition (613 x 447 ratio) */
-        .widget-outer-container {
-            position: relative;
-            width: 100%;
-            max-width: 613px;
-            aspect-ratio: 613 / 447;
-            background-image: url('background.png');
-            background-size: cover;
-            background-position: center;
-            background-color: var(--beige-frame);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
+/* =========================================================
+   COLORS
+   ========================================================= */
 
-        /* Inner Forest Green Interactive Widget */
-        .widget-inner {
-            position: absolute;
-            left: 5.873%;
-            right: 5.873%;
-            top: 8.054%;
-            bottom: 8.054%;
-            background-color: #103526;
-            border-radius: 12px;
-            color: #F4F0EA;
-            padding: 16px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: inset 0 0 0 1px rgba(244, 240, 234, 0.1);
-            overflow: hidden;
-        }
+:root {
+    --forest: #103526;
+    --forest-dark: #0D3022;
+    --panel: #163D2B;
+    --panel-hover: #1B4733;
 
-        /* Scrollable container inside inner widget */
-        .widget-content-scroll {
-            overflow-y: auto;
-            flex-grow: 1;
-            padding-right: 2px;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(244, 240, 234, 0.2) transparent;
-        }
+    --cream: #F2EBDD;
+    --cream-muted: #C9C0AF;
 
-        .widget-content-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
+    --sage: #78936F;
+    --sage-light: #8EA584;
 
-        .widget-content-scroll::-webkit-scrollbar-thumb {
-            background: rgba(244, 240, 234, 0.2);
-            border-radius: 4px;
-        }
+    --gold: #C9A45C;
+    --gold-light: #D8B875;
 
-        /* Header */
-        .widget-header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+    --border: rgba(242, 235, 221, 0.10);
+    --border-strong: rgba(201, 164, 92, 0.32);
 
-        .widget-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            color: #F4F0EA;
-            font-family: Georgia, serif;
-        }
+    --danger: #D89A7C;
+}
 
-        .widget-subtitle {
-            font-size: 0.72rem;
-            color: #A3B8B0;
-            margin-top: 1px;
-        }
 
-        .widget-instructions {
-            font-size: 0.62rem;
-            color: #D4AF37;
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
+/* =========================================================
+   GLOBAL
+   ========================================================= */
 
-        /* Options Setup View */
-        .setup-section {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .option-input-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+html,
+body {
+    margin: 0;
+    padding: 0;
 
-        .option-label-tag {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: #C2D0C9;
-            width: 70px;
-            flex-shrink: 0;
-            letter-spacing: 0.5px;
-        }
+    width: 100%;
+    height: 100%;
 
-        .option-input {
-            flex-grow: 1;
-            background: rgba(244, 240, 234, 0.07);
-            border: 1px solid rgba(244, 240, 234, 0.15);
-            border-radius: 6px;
-            padding: 5px 10px;
-            color: #FFFFFF;
-            font-size: 0.75rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
+    overflow: hidden;
+}
 
-        .option-input:focus {
-            border-color: #D4AF37;
-        }
+body {
+    background: #ffffff;
 
-        .btn-remove {
-            background: transparent;
-            border: none;
-            color: #E0A96D;
-            cursor: pointer;
-            font-size: 0.8rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-        .btn-remove:hover {
-            background: rgba(224, 169, 109, 0.1);
-        }
+    color: var(--cream);
 
-        .add-option-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 4px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .btn-add {
-            background: rgba(244, 240, 234, 0.08);
-            border: 1px dashed rgba(244, 240, 234, 0.3);
-            color: #F4F0EA;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #191919;
+    }
+}
 
-        .btn-add:hover {
-            background: rgba(244, 240, 234, 0.15);
-        }
 
-        /* Ratings Matrix View */
-        .ratings-section {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
+/* =========================================================
+   OUTER COMPOSITION
+   613 × 447
+   ========================================================= */
 
-        .rating-card {
-            background: rgba(244, 240, 234, 0.04);
-            border: 1px solid rgba(244, 240, 234, 0.08);
-            border-radius: 8px;
-            padding: 8px 10px;
-        }
+.composition {
 
-        .rating-card-title {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #D4AF37;
-            margin-bottom: 6px;
-            border-bottom: 1px solid rgba(244, 240, 234, 0.06);
-            padding-bottom: 3px;
-        }
+    position: relative;
 
-        .criteria-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 4px;
-        }
+    width: 100%;
 
-        .criteria-label {
-            font-size: 0.65rem;
-            color: #C2D0C9;
-        }
+    max-width: 613px;
 
-        .pills-rating {
-            display: flex;
-            gap: 3px;
-        }
+    aspect-ratio: 613 / 447;
 
-        .rate-pill {
-            background: rgba(244, 240, 234, 0.06);
-            border: 1px solid rgba(244, 240, 234, 0.12);
-            color: #A3B8B0;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 0.6rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
+    height: auto;
 
-        .rate-pill:hover {
-            background: rgba(244, 240, 234, 0.2);
-            color: #FFF;
-        }
+    flex-shrink: 0;
 
-        .rate-pill.active {
-            background: #F4F0EA;
-            color: #0D2F22;
-            border-color: #F4F0EA;
-            font-weight: 700;
-        }
+    background-image:
+        url("background.png");
 
-        /* Footer Actions */
-        .widget-footer {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-top: 6px;
-            padding-top: 4px;
-            border-top: 1px solid rgba(244, 240, 234, 0.08);
-        }
+    background-repeat: no-repeat;
 
-        .error-message {
-            font-size: 0.62rem;
-            color: #E0A96D;
-            text-align: center;
-            height: 12px;
-            visibility: hidden;
-        }
+    background-position: center;
 
-        .error-message.visible {
-            visibility: visible;
-        }
+    background-size: 100% 100%;
 
-        .btn-main {
-            background-color: #D4AF37;
-            color: #0D2F22;
-            border: none;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            width: 100%;
-            transition: opacity 0.2s, transform 0.1s;
-        }
+    overflow: hidden;
+}
 
-        .btn-main:hover {
-            opacity: 0.9;
-        }
 
-        .btn-main:active {
-            transform: scale(0.98);
-        }
+/* =========================================================
+   INNER WIDGET
+   =========================================================
 
-        /* Result View State */
-        .result-state {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            height: 100%;
-            animation: fadeIn 0.3s ease forwards;
-        }
+   IMPORTANT:
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+   Do NOT use height: 100%.
 
-        .result-badge {
-            font-size: 0.6rem;
-            letter-spacing: 1.5px;
-            color: #D4AF37;
-            margin-bottom: 2px;
-            font-weight: 700;
-        }
+   The widget is anchored proportionally inside
+   the decorative frame.
 
-        .result-winner {
-            font-size: 1.1rem;
-            font-family: Georgia, serif;
-            color: #FFFFFF;
-            margin-bottom: 1px;
-        }
+   613 × 447 outer
+   approximately 541 × 375 inner
+   ========================================================= */
 
-        .result-percentage {
-            font-size: 0.72rem;
-            color: #A3B8B0;
-            margin-bottom: 8px;
-        }
+.widget {
 
-        .result-breakdown {
-            font-size: 0.65rem;
-            color: #C2D0C9;
-            background: rgba(244, 240, 234, 0.05);
-            padding: 6px 12px;
-            border-radius: 6px;
-            border-left: 2px solid #D4AF37;
-            margin-bottom: 8px;
-            width: 100%;
-            text-align: left;
-        }
+    position: absolute;
 
-        .breakdown-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2px;
-        }
+    left: 5.873%;
 
-        .breakdown-row:last-child {
-            margin-bottom: 0;
-        }
+    right: 5.873%;
 
-        .result-explanation {
-            font-size: 0.65rem;
-            color: #A3B8B0;
-            margin-bottom: 10px;
-            max-width: 95%;
-            line-height: 1.3;
-        }
+    top: 8.054%;
 
-        .btn-reset {
-            background-color: rgba(244, 240, 234, 0.1);
-            border: 1px solid rgba(244, 240, 234, 0.2);
-            color: #F4F0EA;
-            padding: 6px 16px;
-            border-radius: 6px;
-            font-size: 0.68rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+    bottom: 8.054%;
 
-        .btn-reset:hover {
-            background-color: rgba(244, 240, 234, 0.2);
-        }
-    </style>
+    width: auto;
+
+    height: auto;
+
+    background: var(--forest-dark);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   COMMON
+   ========================================================= */
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================================================
+   SETUP SCREEN
+   ========================================================= */
+
+.setup-screen {
+
+    width: 100%;
+    height: 100%;
+
+    padding: 18px 24px 15px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+.header-icon {
+
+    font-size: 14px;
+
+    line-height: 1;
+
+    margin-bottom: 3px;
+}
+
+.title {
+
+    margin: 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    font-weight: 400;
+
+    letter-spacing: -0.025em;
+
+    color: var(--cream);
+}
+
+.subtitle {
+
+    margin: 4px 0 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 9px;
+
+    font-style: italic;
+
+    color: var(--cream-muted);
+}
+
+.description {
+
+    margin: 4px auto 0;
+
+    max-width: 360px;
+
+    font-size: 7px;
+
+    line-height: 1.3;
+
+    color: rgba(242, 235, 221, 0.58);
+}
+
+
+/* =========================================================
+   OPTION AREA
+   ========================================================= */
+
+.options-section {
+
+    margin-top: 10px;
+
+    flex-shrink: 0;
+}
+
+.section-label {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 4px;
+}
+
+.section-title {
+
+    font-size: 7px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.11em;
+
+    text-transform: uppercase;
+
+    color: var(--cream-muted);
+}
+
+.option-count {
+
+    font-size: 6.5px;
+
+    color: rgba(242, 235, 221, 0.42);
+}
+
+
+/* =========================================================
+   OPTIONS GRID
+   ========================================================= */
+
+.options-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 6px;
+}
+
+
+/* =========================================================
+   OPTION CARD
+   ========================================================= */
+
+.option-card {
+
+    position: relative;
+
+    min-width: 0;
+
+    background: var(--panel);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 7px;
+
+    padding: 6px;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.option-card:hover {
+
+    border-color:
+        rgba(201, 164, 92, 0.22);
+
+    background: var(--panel-hover);
+}
+
+.option-card.hidden {
+
+    display: none;
+}
+
+.option-number {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 5.5px;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    color: var(--gold);
+}
+
+.option-input-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+}
+
+.option-input {
+
+    min-width: 0;
+
+    width: 100%;
+
+    height: 23px;
+
+    padding: 0 6px;
+
+    border:
+        1px solid
+        rgba(242, 235, 221, 0.08);
+
+    border-radius: 5px;
+
+    background:
+        rgba(13, 48, 34, 0.65);
+
+    color: var(--cream);
+
+    outline: none;
+
+    font-size: 7px;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.option-input::placeholder {
+
+    color:
+        rgba(242, 235, 221, 0.30);
+}
+
+.option-input:focus {
+
+    border-color:
+        var(--border-strong);
+
+    background:
+        rgba(13, 48, 34, 0.95);
+}
+
+
+/* =========================================================
+   REMOVE OPTION
+   ========================================================= */
+
+.remove-option {
+
+    flex-shrink: 0;
+
+    width: 16px;
+
+    height: 16px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(216, 154, 124, 0.10);
+
+    color: var(--cream-muted);
+
+    font-size: 9px;
+
+    line-height: 16px;
+
+    text-align: center;
+
+    padding: 0;
+
+    cursor: pointer;
+}
+
+.remove-option:hover {
+
+    background:
+        rgba(216, 154, 124, 0.22);
+
+    color: var(--danger);
+}
+
+
+/* =========================================================
+   ADD OPTION
+   ========================================================= */
+
+.add-option {
+
+    margin-top: 5px;
+
+    border: none;
+
+    background: none;
+
+    color: var(--gold);
+
+    padding: 0;
+
+    font-size: 7px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.add-option:hover {
+
+    color: var(--gold-light);
+}
+
+.add-option:disabled {
+
+    opacity: 0.35;
+
+    cursor: default;
+}
+
+
+/* =========================================================
+   RATINGS SECTION
+   ========================================================= */
+
+.ratings-section {
+
+    margin-top: 8px;
+
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.rating-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    flex-shrink: 0;
+
+    margin-bottom: 4px;
+}
+
+.rating-heading-title {
+
+    font-size: 7px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.11em;
+
+    text-transform: uppercase;
+
+    color: var(--cream-muted);
+}
+
+.rating-heading-note {
+
+    font-size: 6px;
+
+    color:
+        rgba(242, 235, 221, 0.38);
+}
+
+
+/* =========================================================
+   RATING GRID
+   ========================================================= */
+
+.rating-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 6px;
+
+    flex: 1;
+
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   RATING CARD
+   ========================================================= */
+
+.rating-card {
+
+    min-width: 0;
+
+    min-height: 0;
+
+    background:
+        rgba(22, 61, 43, 0.60);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 7px;
+
+    padding: 6px 5px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.rating-card.hidden {
+
+    display: none;
+}
+
+.rating-option-name {
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 9px;
+
+    line-height: 1.1;
+
+    color: var(--cream);
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================================
+   CRITERION
+   ========================================================= */
+
+.criterion {
+
+    margin-bottom: 4px;
+}
+
+.criterion:last-child {
+
+    margin-bottom: 0;
+}
+
+.criterion-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+
+    min-width: 0;
+
+    margin-bottom: 2px;
+
+    font-size: 5.5px;
+
+    font-weight: 700;
+
+    color: var(--cream-muted);
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.criterion-icon {
+
+    flex-shrink: 0;
+
+    font-size: 6px;
+}
+
+
+/* =========================================================
+   RATING BUTTONS
+   ========================================================= */
+
+.rating-buttons {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 2px;
+}
+
+.rating-button {
+
+    height: 17px;
+
+    padding: 0;
+
+    border:
+        1px solid
+        rgba(242, 235, 221, 0.08);
+
+    border-radius: 3px;
+
+    background:
+        rgba(13, 48, 34, 0.65);
+
+    color:
+        rgba(242, 235, 221, 0.55);
+
+    font-size: 6px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.12s ease,
+        color 0.12s ease,
+        border-color 0.12s ease;
+}
+
+.rating-button:hover {
+
+    border-color:
+        rgba(201, 164, 92, 0.35);
+
+    color: var(--cream);
+}
+
+.rating-button.selected {
+
+    background: var(--sage);
+
+    border-color: var(--sage);
+
+    color: #10281B;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   FIND BUTTON
+   ========================================================= */
+
+.bottom-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-top: 7px;
+}
+
+.find-button {
+
+    width: 230px;
+
+    height: 29px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: var(--gold);
+
+    color: #10281B;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.075em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.18s ease,
+        transform 0.15s ease;
+}
+
+.find-button:hover {
+
+    background: var(--gold-light);
+}
+
+.find-button:active {
+
+    transform: scale(0.99);
+}
+
+
+/* =========================================================
+   VALIDATION MESSAGE
+   ========================================================= */
+
+.validation {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 9px;
+
+    transform:
+        translateX(-50%);
+
+    width: 80%;
+
+    text-align: center;
+
+    color: var(--danger);
+
+    font-size: 6.5px;
+
+    display: none;
+}
+
+
+/* =========================================================
+   RESULT SCREEN
+   ========================================================= */
+
+.result-screen {
+
+    display: none;
+
+    width: 100%;
+
+    height: 100%;
+
+    padding: 18px 27px 14px;
+
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.result-screen.active {
+
+    display: flex;
+
+    animation:
+        resultIn 0.25s ease;
+}
+
+@keyframes resultIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   RESULT HEADER
+   ========================================================= */
+
+.result-header {
+
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+.result-kicker {
+
+    margin: 0 0 3px;
+
+    color: var(--gold);
+
+    font-size: 6.5px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.13em;
+
+    text-transform: uppercase;
+}
+
+.result-title {
+
+    margin: 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    font-weight: 400;
+
+    color: var(--cream);
+}
+
+.result-match {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    margin-top: 5px;
+
+    padding: 4px 9px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(120, 147, 111, 0.17);
+
+    border:
+        1px solid
+        rgba(120, 147, 111, 0.32);
+
+    color: var(--sage-light);
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+/* =========================================================
+   TIE RESULT
+   ========================================================= */
+
+.tie-result {
+
+    margin-top: 7px;
+
+    padding: 6px 9px;
+
+    border-radius: 7px;
+
+    background:
+        rgba(201, 164, 92, 0.08);
+
+    border:
+        1px solid
+        rgba(201, 164, 92, 0.20);
+
+    text-align: center;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 8px;
+
+    line-height: 1.3;
+
+    color: var(--cream-muted);
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   WINNER BREAKDOWN
+   ========================================================= */
+
+.result-content {
+
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+.breakdown-title {
+
+    margin: 0 0 5px;
+
+    font-size: 6.5px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.11em;
+
+    text-transform: uppercase;
+
+    color: var(--cream-muted);
+}
+
+.breakdown {
+
+    width: 300px;
+
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 5px;
+}
+
+.breakdown-item {
+
+    padding: 6px 3px;
+
+    border-radius: 6px;
+
+    background:
+        rgba(22, 61, 43, 0.70);
+
+    border:
+        1px solid
+        var(--border);
+
+    text-align: center;
+}
+
+.breakdown-icon {
+
+    display: block;
+
+    font-size: 9px;
+
+    margin-bottom: 2px;
+}
+
+.breakdown-name {
+
+    display: block;
+
+    font-size: 5px;
+
+    color: var(--cream-muted);
+
+    margin-bottom: 2px;
+}
+
+.breakdown-score {
+
+    display: block;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 10px;
+
+    color: var(--cream);
+}
+
+
+/* =========================================================
+   WHY THIS ONE
+   ========================================================= */
+
+.why-box {
+
+    width: 390px;
+
+    max-width: 100%;
+
+    margin-top: 8px;
+
+    padding: 7px 12px;
+
+    border-left:
+        2px solid
+        var(--gold);
+
+    background:
+        rgba(201, 164, 92, 0.055);
+
+    border-radius: 0 6px 6px 0;
+}
+
+.why-title {
+
+    margin: 0 0 2px;
+
+    color: var(--gold);
+
+    font-size: 6px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.10em;
+
+    text-transform: uppercase;
+}
+
+.why-text {
+
+    margin: 0;
+
+    color: var(--cream-muted);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 7px;
+
+    line-height: 1.35;
+}
+
+
+/* =========================================================
+   RESULT ACTIONS
+   ========================================================= */
+
+.result-actions {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-top: 8px;
+}
+
+.reset-button {
+
+    width: 150px;
+
+    height: 27px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 6px;
+
+    background: var(--panel);
+
+    color: var(--cream-muted);
+
+    font-size: 7px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.reset-button:hover {
+
+    background: var(--sage);
+
+    color: #10281B;
+
+    border-color: var(--sage);
+}
+
+
+/* =========================================================
+   MOBILE
+   =========================================================
+
+   IMPORTANT:
+
+   We do NOT change the outer composition.
+
+   We do NOT change the inner widget positioning.
+
+   The entire composition scales proportionally.
+
+   Internal content simply becomes more compact.
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .setup-screen {
+
+        padding:
+            12px
+            15px
+            11px;
+    }
+
+    .header-icon {
+
+        font-size: 10px;
+
+        margin-bottom: 2px;
+    }
+
+    .title {
+
+        font-size: 17px;
+    }
+
+    .subtitle {
+
+        margin-top: 3px;
+
+        font-size: 7px;
+    }
+
+    .description {
+
+        margin-top: 3px;
+
+        font-size: 5.5px;
+    }
+
+
+    /* OPTIONS */
+
+    .options-section {
+
+        margin-top: 7px;
+    }
+
+    .section-title {
+
+        font-size: 5.8px;
+    }
+
+    .option-count {
+
+        font-size: 5.5px;
+    }
+
+    .options-grid {
+
+        gap: 4px;
+    }
+
+    .option-card {
+
+        padding: 4px;
+
+        border-radius: 5px;
+    }
+
+    .option-number {
+
+        font-size: 4.5px;
+
+        margin-bottom: 2px;
+    }
+
+    .option-input {
+
+        height: 20px;
+
+        padding: 0 5px;
+
+        border-radius: 4px;
+
+        font-size: 6px;
+    }
+
+    .remove-option {
+
+        width: 14px;
+
+        height: 14px;
+
+        line-height: 14px;
+
+        font-size: 8px;
+    }
+
+    .add-option {
+
+        margin-top: 3px;
+
+        font-size: 5.8px;
+    }
+
+
+    /* RATINGS */
+
+    .ratings-section {
+
+        margin-top: 6px;
+    }
+
+    .rating-heading {
+
+        margin-bottom: 3px;
+    }
+
+    .rating-heading-title {
+
+        font-size: 5.8px;
+    }
+
+    .rating-heading-note {
+
+        font-size: 5px;
+    }
+
+    .rating-grid {
+
+        gap: 4px;
+    }
+
+    .rating-card {
+
+        padding: 4px 3px;
+
+        border-radius: 5px;
+    }
+
+    .rating-option-name {
+
+        font-size: 7px;
+
+        margin-bottom: 3px;
+    }
+
+    .criterion {
+
+        margin-bottom: 3px;
+    }
+
+    .criterion-label {
+
+        font-size: 4.6px;
+
+        margin-bottom: 1px;
+    }
+
+    .criterion-icon {
+
+        font-size: 5px;
+    }
+
+    .rating-buttons {
+
+        gap: 1px;
+    }
+
+    .rating-button {
+
+        height: 14px;
+
+        border-radius: 2px;
+
+        font-size: 5px;
+    }
+
+    .bottom-row {
+
+        margin-top: 5px;
+    }
+
+    .find-button {
+
+        width: 200px;
+
+        height: 26px;
+
+        font-size: 6.5px;
+    }
+
+
+    /* RESULT */
+
+    .result-screen {
+
+        padding:
+            12px
+            17px
+            10px;
+    }
+
+    .result-kicker {
+
+        font-size: 5.5px;
+    }
+
+    .result-title {
+
+        font-size: 18px;
+    }
+
+    .result-match {
+
+        margin-top: 4px;
+
+        padding: 3px 7px;
+
+        font-size: 6.5px;
+    }
+
+    .breakdown {
+
+        width: 280px;
+
+        gap: 4px;
+    }
+
+    .breakdown-item {
+
+        padding: 5px 2px;
+    }
+
+    .breakdown-icon {
+
+        font-size: 8px;
+    }
+
+    .breakdown-name {
+
+        font-size: 4.5px;
+    }
+
+    .breakdown-score {
+
+        font-size: 9px;
+    }
+
+    .why-box {
+
+        width: 350px;
+
+        margin-top: 6px;
+
+        padding: 6px 9px;
+    }
+
+    .why-title {
+
+        font-size: 5px;
+    }
+
+    .why-text {
+
+        font-size: 6px;
+    }
+
+    .reset-button {
+
+        width: 135px;
+
+        height: 24px;
+
+        font-size: 6px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .setup-screen {
+
+        padding:
+            9px
+            11px
+            8px;
+    }
+
+    .title {
+
+        font-size: 15px;
+    }
+
+    .subtitle {
+
+        font-size: 6px;
+    }
+
+    .description {
+
+        font-size: 5px;
+    }
+
+    .options-section {
+
+        margin-top: 5px;
+    }
+
+    .option-card {
+
+        padding: 3px;
+    }
+
+    .option-input {
+
+        height: 18px;
+
+        font-size: 5.5px;
+    }
+
+    .rating-card {
+
+        padding: 3px 2px;
+    }
+
+    .rating-option-name {
+
+        font-size: 6px;
+    }
+
+    .criterion-label {
+
+        font-size: 4px;
+    }
+
+    .rating-button {
+
+        height: 12px;
+
+        font-size: 4.5px;
+    }
+
+    .find-button {
+
+        height: 24px;
+
+        font-size: 6px;
+    }
+
+    .result-screen {
+
+        padding:
+            9px
+            12px
+            8px;
+    }
+
+    .result-title {
+
+        font-size: 16px;
+    }
+
+    .breakdown {
+
+        width: 260px;
+    }
+
+    .why-text {
+
+        font-size: 5.5px;
+    }
+}
+
+</style>
 </head>
+
+
 <body>
 
-    <div class="widget-outer-container">
-        <div class="widget-inner">
-            
-            <!-- Header (shared across interactive steps) -->
-            <div class="widget-header">
-                <h1 class="widget-title">🎬 Entertainment Decision Matrix</h1>
-                <p class="widget-subtitle">Can't decide? Let the numbers choose.</p>
-                <div id="widgetInstructions" class="widget-instructions">Step 1: Enter 3 to 5 options</div>
-            </div>
 
-            <!-- Main Interactive Scroll Area -->
-            <div class="widget-content-scroll" id="scrollArea">
-                
-                <!-- Setup Options View -->
-                <div id="setupView" class="setup-section">
-                    <div class="option-input-row" data-index="0">
-                        <span class="option-label-tag">OPTION 1</span>
-                        <input type="text" class="option-input" placeholder="e.g. Inception" value="Movie A">
-                    </div>
-                    <div class="option-input-row" data-index="1">
-                        <span class="option-label-tag">OPTION 2</span>
-                        <input type="text" class="option-input" placeholder="e.g. Succession" value="Show B">
-                    </div>
-                    <div class="option-input-row" data-index="2">
-                        <span class="option-label-tag">OPTION 3</span>
-                        <input type="text" class="option-input" placeholder="e.g. Stardew Valley" value="Game C">
-                    </div>
-                    <div class="add-option-row">
-                        <button id="addOptionBtn" class="btn-add">+ Add Option</button>
-                    </div>
+<!-- =========================================================
+     OUTER COMPOSITION
+     ========================================================= -->
+
+<div class="composition">
+
+
+    <!-- =====================================================
+         INNER FOREST GREEN WIDGET
+         ===================================================== -->
+
+    <div class="widget">
+
+
+        <!-- =================================================
+             SETUP SCREEN
+             ================================================= -->
+
+        <section
+            class="setup-screen"
+            id="setupScreen"
+        >
+
+
+            <!-- HEADER -->
+
+            <div class="header">
+
+                <div class="header-icon">
+                    🎬
                 </div>
 
-                <!-- Ratings Matrix View -->
-                <div id="ratingsView" class="ratings-section">
-                    <!-- Dynamically populated via JS -->
-                </div>
+                <h1 class="title">
+                    Entertainment Decision Matrix
+                </h1>
 
-                <!-- Result View State -->
-                <div id="resultView" class="result-state">
-                    <div class="result-badge">✨ YOUR BEST MATCH</div>
-                    <div id="resultWinner" class="result-winner">Movie B</div>
-                    <div id="resultPercentage" class="result-percentage">92% MATCH</div>
-                    <div id="resultBreakdown" class="result-breakdown">
-                        <!-- Populated via JS -->
-                    </div>
-                    <div id="resultExplanation" class="result-explanation">It scored highest for mood, interest, and overall fit with your available energy.</div>
-                    <button id="resetBtn" class="btn-reset">↻ RESET</button>
-                </div>
+                <p class="subtitle">
+                    Can't decide? Let the numbers choose.
+                </p>
+
+                <p class="description">
+                    Add 3–5 options and rate each one to find your best match.
+                </p>
 
             </div>
 
-            <!-- Footer Controls -->
-            <div class="widget-footer" id="widgetFooter">
-                <div id="errorMsg" class="error-message">Please fill in valid option names and complete all ratings.</div>
-                <button id="mainActionBtn" class="btn-main">PROCEED TO RATINGS →</button>
+
+            <!-- =================================================
+                 OPTIONS
+                 ================================================= -->
+
+            <div class="options-section">
+
+                <div class="section-label">
+
+                    <span class="section-title">
+                        Step 1 · Options
+                    </span>
+
+                    <span
+                        class="option-count"
+                        id="optionCount"
+                    >
+                        3 / 5
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="options-grid"
+                    id="optionsGrid"
+                >
+
+
+                    <!-- OPTION 1 -->
+
+                    <div
+                        class="option-card"
+                        data-option="0"
+                    >
+
+                        <span class="option-number">
+                            Option 1
+                        </span>
+
+                        <div class="option-input-row">
+
+                            <input
+                                class="option-input"
+                                type="text"
+                                maxlength="40"
+                                placeholder="Movie, show..."
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTION 2 -->
+
+                    <div
+                        class="option-card"
+                        data-option="1"
+                    >
+
+                        <span class="option-number">
+                            Option 2
+                        </span>
+
+                        <div class="option-input-row">
+
+                            <input
+                                class="option-input"
+                                type="text"
+                                maxlength="40"
+                                placeholder="Movie, show..."
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTION 3 -->
+
+                    <div
+                        class="option-card"
+                        data-option="2"
+                    >
+
+                        <span class="option-number">
+                            Option 3
+                        </span>
+
+                        <div class="option-input-row">
+
+                            <input
+                                class="option-input"
+                                type="text"
+                                maxlength="40"
+                                placeholder="Movie, show..."
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTION 4 -->
+
+                    <div
+                        class="option-card hidden"
+                        data-option="3"
+                    >
+
+                        <span class="option-number">
+                            Option 4
+                        </span>
+
+                        <div class="option-input-row">
+
+                            <input
+                                class="option-input"
+                                type="text"
+                                maxlength="40"
+                                placeholder="Movie, show..."
+                                autocomplete="off"
+                            >
+
+                            <button
+                                class="remove-option"
+                                type="button"
+                                aria-label="Remove option"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTION 5 -->
+
+                    <div
+                        class="option-card hidden"
+                        data-option="4"
+                    >
+
+                        <span class="option-number">
+                            Option 5
+                        </span>
+
+                        <div class="option-input-row">
+
+                            <input
+                                class="option-input"
+                                type="text"
+                                maxlength="40"
+                                placeholder="Movie, show..."
+                                autocomplete="off"
+                            >
+
+                            <button
+                                class="remove-option"
+                                type="button"
+                                aria-label="Remove option"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="add-option"
+                    id="addOption"
+                    type="button"
+                >
+                    + Add Option
+                </button>
+
             </div>
 
-        </div>
+
+            <!-- =================================================
+                 RATINGS
+                 ================================================= -->
+
+            <div class="ratings-section">
+
+                <div class="rating-heading">
+
+                    <span class="rating-heading-title">
+                        Step 2 · Rate Your Options
+                    </span>
+
+                    <span class="rating-heading-note">
+                        1 = low · 5 = high
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="rating-grid"
+                    id="ratingGrid"
+                >
+
+                    <!-- JavaScript creates rating cards -->
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FIND BUTTON
+                 ================================================= -->
+
+            <div class="bottom-row">
+
+                <button
+                    class="find-button"
+                    id="findButton"
+                    type="button"
+                >
+                    ✨ Find My Best Match
+                </button>
+
+            </div>
+
+
+            <div
+                class="validation"
+                id="validation"
+            ></div>
+
+
+        </section>
+
+
+        <!-- =================================================
+             RESULT SCREEN
+             ================================================= -->
+
+        <section
+            class="result-screen"
+            id="resultScreen"
+        >
+
+
+            <div class="result-header">
+
+                <p class="result-kicker">
+                    ✨ Your Best Match
+                </p>
+
+                <h2
+                    class="result-title"
+                    id="winnerName"
+                >
+                    Movie B
+                </h2>
+
+                <div
+                    class="result-match"
+                    id="winnerMatch"
+                >
+                    92% MATCH
+                </div>
+
+            </div>
+
+
+            <div
+                class="tie-result"
+                id="tieResult"
+                style="display:none;"
+            ></div>
+
+
+            <div class="result-content">
+
+                <p class="breakdown-title">
+                    Your Score Breakdown
+                </p>
+
+
+                <div
+                    class="breakdown"
+                    id="breakdown"
+                ></div>
+
+
+                <div class="why-box">
+
+                    <p class="why-title">
+                        Why this one?
+                    </p>
+
+                    <p
+                        class="why-text"
+                        id="whyText"
+                    ></p>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-actions">
+
+                <button
+                    class="reset-button"
+                    id="resetButton"
+                    type="button"
+                >
+                    ↻ Reset
+                </button>
+
+            </div>
+
+
+        </section>
+
+
     </div>
 
-    <script>
-        // Application State
-        let currentStep = 1; // 1: Setup Options, 2: Ratings Matrix
-        let options = [
-            { name: "Movie A", mood: 0, runtime: 0, interest: 0, energy: 0 },
-            { name: "Show B", mood: 0, runtime: 0, interest: 0, energy: 0 },
-            { name: "Game C", mood: 0, runtime: 0, interest: 0, energy: 0 }
-        ];
+</div>
 
-        // DOM Elements
-        const setupView = document.getElementById('setupView');
-        const ratingsView = document.getElementById('ratingsView');
-        const resultView = document.getElementById('resultView');
-        const widgetInstructions = document.getElementById('widgetInstructions');
-        const mainActionBtn = document.getElementById('mainActionBtn');
-        const addOptionBtn = document.getElementById('addOptionBtn');
-        const errorMsg = document.getElementById('errorMsg');
-        const widgetFooter = document.getElementById('widgetFooter');
 
-        // Update Options List UI
-        function renderSetupOptions() {
-            setupView.innerHTML = '';
-            options.forEach((opt, index) => {
-                const row = document.createElement('div');
-                row.className = 'option-input-row';
-                
-                const label = document.createElement('span');
-                label.className = 'option-label-tag';
-                label.textContent = `OPTION ${index + 1}`;
+<script>
 
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'option-input';
-                input.value = opt.name;
-                input.placeholder = `Option ${index + 1}`;
-                input.addEventListener('input', (e) => {
-                    options[index].name = e.target.value.trim();
-                    errorMsg.classList.remove('visible');
-                });
+/* =========================================================
+   DATA
+   ========================================================= */
 
-                row.appendChild(label);
-                row.appendChild(input);
+const criteria = [
 
-                // Allow deletion for options 4 and 5
-                if (index >= 3) {
-                    const removeBtn = document.createElement('button');
-                    removeBtn.className = 'btn-remove';
-                    removeBtn.textContent = '✕';
-                    removeBtn.title = 'Remove Option';
-                    removeBtn.addEventListener('click', () => {
-                        options.splice(index, 1);
-                        renderSetupOptions();
-                    });
-                    row.appendChild(removeBtn);
-                }
+    {
+        key: "mood",
+        icon: "⭐",
+        name: "Mood Fit"
+    },
 
-                setupView.appendChild(row);
-            });
+    {
+        key: "runtime",
+        icon: "⏱️",
+        name: "Runtime"
+    },
 
-            // Add button row back
-            const addRow = document.createElement('div');
-            addRow.className = 'add-option-row';
-            if (options.length < 5) {
-                addRow.appendChild(addOptionBtn);
-            }
-            setupView.appendChild(addRow);
-        }
+    {
+        key: "interest",
+        icon: "❤️",
+        name: "Interest"
+    },
 
-        // Add Option Handler
-        addOptionBtn.addEventListener('click', () => {
-            if (options.length < 5) {
-                options.push({ name: `Option ${options.length + 1}`, mood: 0, runtime: 0, interest: 0, energy: 0 });
-                renderSetupOptions();
-            }
+    {
+        key: "energy",
+        icon: "🧠",
+        name: "Energy"
+    }
+
+];
+
+
+const optionCards =
+    Array.from(
+        document.querySelectorAll(".option-card")
+    );
+
+
+let activeOptionCount = 3;
+
+
+/*
+ * Ratings are stored as:
+ *
+ * ratings[optionIndex][criterionKey]
+ *
+ * Example:
+ *
+ * ratings[0].mood = 5
+ */
+
+let ratings = [];
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const setupScreen =
+    document.getElementById("setupScreen");
+
+const resultScreen =
+    document.getElementById("resultScreen");
+
+const optionsGrid =
+    document.getElementById("optionsGrid");
+
+const ratingGrid =
+    document.getElementById("ratingGrid");
+
+const addOptionButton =
+    document.getElementById("addOption");
+
+const optionCount =
+    document.getElementById("optionCount");
+
+const findButton =
+    document.getElementById("findButton");
+
+const validation =
+    document.getElementById("validation");
+
+const resetButton =
+    document.getElementById("resetButton");
+
+const winnerName =
+    document.getElementById("winnerName");
+
+const winnerMatch =
+    document.getElementById("winnerMatch");
+
+const breakdown =
+    document.getElementById("breakdown");
+
+const whyText =
+    document.getElementById("whyText");
+
+const tieResult =
+    document.getElementById("tieResult");
+
+
+/* =========================================================
+   INITIALIZE RATINGS
+   ========================================================= */
+
+function createEmptyRatings() {
+
+    ratings = [];
+
+    for (
+        let i = 0;
+        i < 5;
+        i++
+    ) {
+
+        ratings.push({
+
+            mood: null,
+
+            runtime: null,
+
+            interest: null,
+
+            energy: null
+
         });
 
-        // Render Rating Matrix View
-        function renderRatingsMatrix() {
-            ratingsView.innerHTML = '';
-            options.forEach((opt, optIdx) => {
-                const card = document.createElement('div');
-                card.className = 'rating-card';
+    }
+}
 
-                const title = document.createElement('div');
-                title.className = 'rating-card-title';
-                title.textContent = opt.name || `Option ${optIdx + 1}`;
-                card.appendChild(title);
 
-                const criteriaList = [
-                    { key: 'mood', label: '⭐ Mood Fit' },
-                    { key: 'runtime', label: '⏱️ Runtime' },
-                    { key: 'interest', label: '❤️ Interest' },
-                    { key: 'energy', label: '🧠 Energy (5=Easy)' }
-                ];
+/* =========================================================
+   CREATE RATING CARDS
+   ========================================================= */
 
-                criteriaList.forEach(crit => {
-                    const row = document.createElement('div');
-                    row.className = 'criteria-row';
+function renderRatingCards() {
 
-                    const critLabel = document.createElement('span');
-                    critLabel.className = 'criteria-label';
-                    critLabel.textContent = crit.label;
-                    row.appendChild(critLabel);
+    ratingGrid.innerHTML = "";
 
-                    const pillsContainer = document.createElement('div');
-                    pillsContainer.className = 'pills-rating';
 
-                    for (let i = 1; i <= 5; i++) {
-                        const pill = document.createElement('button');
-                        pill.type = 'button';
-                        pill.className = 'rate-pill';
-                        pill.textContent = i;
-                        if (opt[crit.key] === i) {
-                            pill.classList.add('active');
+    for (
+        let i = 0;
+        i < activeOptionCount;
+        i++
+    ) {
+
+        const input =
+            optionCards[i]
+                .querySelector(".option-input");
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "rating-card";
+
+        card.dataset.option =
+            i;
+
+
+        const optionName =
+            document.createElement("div");
+
+        optionName.className =
+            "rating-option-name";
+
+        optionName.textContent =
+            input.value.trim() ||
+            `Option ${i + 1}`;
+
+
+        card.appendChild(
+            optionName
+        );
+
+
+        criteria.forEach(
+            criterion => {
+
+                const criterionElement =
+                    document.createElement("div");
+
+                criterionElement.className =
+                    "criterion";
+
+
+                const label =
+                    document.createElement("div");
+
+                label.className =
+                    "criterion-label";
+
+
+                const icon =
+                    document.createElement("span");
+
+                icon.className =
+                    "criterion-icon";
+
+                icon.textContent =
+                    criterion.icon;
+
+
+                const text =
+                    document.createElement("span");
+
+                text.textContent =
+                    criterion.name;
+
+
+                label.appendChild(icon);
+
+                label.appendChild(text);
+
+
+                criterionElement.appendChild(
+                    label
+                );
+
+
+                const buttons =
+                    document.createElement("div");
+
+                buttons.className =
+                    "rating-buttons";
+
+
+                for (
+                    let value = 1;
+                    value <= 5;
+                    value++
+                ) {
+
+                    const button =
+                        document.createElement("button");
+
+                    button.type =
+                        "button";
+
+                    button.className =
+                        "rating-button";
+
+                    button.textContent =
+                        value;
+
+                    button.dataset.option =
+                        i;
+
+                    button.dataset.criterion =
+                        criterion.key;
+
+                    button.dataset.value =
+                        value;
+
+
+                    if (
+                        ratings[i][criterion.key] ===
+                        value
+                    ) {
+
+                        button.classList.add(
+                            "selected"
+                        );
+                    }
+
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            ratings[i][criterion.key] =
+                                value;
+
+
+                            const siblings =
+                                buttons.querySelectorAll(
+                                    ".rating-button"
+                                );
+
+
+                            siblings.forEach(
+                                sibling => {
+
+                                    sibling.classList.remove(
+                                        "selected"
+                                    );
+
+                                }
+                            );
+
+
+                            button.classList.add(
+                                "selected"
+                            );
+
+
+                            clearValidation();
+
                         }
+                    );
 
-                        pill.addEventListener('click', () => {
-                            options[optIdx][crit.key] = i;
-                            pillsContainer.querySelectorAll('.rate-pill').forEach(p => p.classList.remove('active'));
-                            pill.classList.add('active');
-                            errorMsg.classList.remove('visible');
-                        });
 
-                        pillsContainer.appendChild(pill);
-                    }
+                    buttons.appendChild(
+                        button
+                    );
 
-                    row.appendChild(pillsContainer);
-                    card.appendChild(row);
-                });
+                }
 
-                ratingsView.appendChild(card);
-            });
+
+                criterionElement.appendChild(
+                    buttons
+                );
+
+
+                card.appendChild(
+                    criterionElement
+                );
+
+            }
+        );
+
+
+        ratingGrid.appendChild(
+            card
+        );
+
+    }
+}
+
+
+/* =========================================================
+   OPTION NAME CHANGES
+   ========================================================= */
+
+optionCards.forEach(
+    card => {
+
+        const input =
+            card.querySelector(
+                ".option-input"
+            );
+
+
+        input.addEventListener(
+            "input",
+            () => {
+
+                renderRatingCards();
+
+                clearValidation();
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   ADD OPTION
+   ========================================================= */
+
+addOptionButton.addEventListener(
+    "click",
+    () => {
+
+        if (
+            activeOptionCount >= 5
+        ) {
+
+            return;
         }
 
-        // Main Action Button Controller
-        mainActionBtn.addEventListener('click', () => {
-            if (currentStep === 1) {
-                // Validate options
-                const validOptions = options.filter(o => o.name.length > 0);
-                if (validOptions.length < 3) {
-                    errorMsg.textContent = "Please enter at least 3 valid options.";
-                    errorMsg.classList.add('visible');
-                    return;
-                }
-                // Sync option names
-                document.querySelectorAll('.option-input').forEach((input, idx) => {
-                    if (options[idx]) options[idx].name = input.value.trim() || `Option ${idx + 1}`;
-                });
 
-                // Transition to Step 2
-                currentStep = 2;
-                setupView.style.display = 'none';
-                ratingsView.style.display = 'flex';
-                widgetInstructions.textContent = "Step 2: Rate each option across criteria";
-                mainActionBtn.textContent = "✨ FIND MY BEST MATCH";
-                renderRatingsMatrix();
-                errorMsg.classList.remove('visible');
-            } else if (currentStep === 2) {
-                // Validate ratings
-                for (let opt of options) {
-                    if (!opt.mood || !opt.runtime || !opt.interest || !opt.energy) {
-                        errorMsg.textContent = "Please complete all ratings for every option.";
-                        errorMsg.classList.add('visible');
-                        return;
-                    }
-                }
-
-                // Calculate Scores
-                let scoredOptions = options.map(opt => {
-                    const totalScore = opt.mood + opt.runtime + opt.interest + opt.energy;
-                    const percentage = Math.round((totalScore / 20) * 100);
-                    return { ...opt, totalScore, percentage };
-                });
-
-                // Sort descending by score
-                scoredOptions.sort((a, b) => b.totalScore - a.totalScore);
-
-                const topWinner = scoredOptions[0];
-                const ties = scoredOptions.filter(o => o.totalScore === topWinner.totalScore);
-
-                // Populate Result View
-                const resultWinner = document.getElementById('resultWinner');
-                const resultPercentage = document.getElementById('resultPercentage');
-                const resultBreakdown = document.getElementById('resultBreakdown');
-                const resultExplanation = document.getElementById('resultExplanation');
-
-                if (ties.length > 1) {
-                    const tieNames = ties.map(t => t.name).join(' and ');
-                    resultWinner.textContent = "It's a tie!";
-                    resultPercentage.textContent = `${tieNames} both match at ${topWinner.percentage}%`;
-                } else {
-                    resultWinner.textContent = topWinner.name;
-                    resultPercentage.textContent = `${topWinner.percentage}% MATCH`;
-                }
-
-                resultBreakdown.innerHTML = `
-                    <div class="breakdown-row"><span>⭐ Mood Fit</span><span>${topWinner.mood}/5</span></div>
-                    <div class="breakdown-row"><span>⏱️ Runtime</span><span>${topWinner.runtime}/5</span></div>
-                    <div class="breakdown-row"><span>❤️ Interest</span><span>${topWinner.interest}/5</span></div>
-                    <div class="breakdown-row"><span>🧠 Energy Fit</span><span>${topWinner.energy}/5</span></div>
-                `;
-
-                resultExplanation.textContent = `${topWinner.name} scored highest across your weighted preference criteria, delivering the ideal balance for tonight.`;
-
-                // Show Result Screen
-                ratingsView.style.display = 'none';
-                widgetInstructions.style.display = 'none';
-                widgetFooter.style.display = 'none';
-                resultView.style.display = 'flex';
-            }
-        });
-
-        // Reset Action Handler
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            currentStep = 1;
-            options = [
-                { name: "Movie A", mood: 0, runtime: 0, interest: 0, energy: 0 },
-                { name: "Show B", mood: 0, runtime: 0, interest: 0, energy: 0 },
-                { name: "Game C", mood: 0, runtime: 0, interest: 0, energy: 0 }
+        const card =
+            optionCards[
+                activeOptionCount
             ];
 
-            renderSetupOptions();
 
-            resultView.style.display = 'none';
-            setupView.style.display = 'flex';
-            widgetInstructions.style.display = 'block';
-            widgetFooter.style.display = 'flex';
-            widgetInstructions.textContent = "Step 1: Enter 3 to 5 options";
-            mainActionBtn.textContent = "PROCEED TO RATINGS →";
-            errorMsg.classList.remove('visible');
+        card.classList.remove(
+            "hidden"
+        );
+
+
+        activeOptionCount++;
+
+
+        updateOptionUI();
+
+        renderRatingCards();
+
+    }
+);
+
+
+/* =========================================================
+   REMOVE OPTION
+   ========================================================= */
+
+optionCards.forEach(
+    card => {
+
+        const removeButton =
+            card.querySelector(
+                ".remove-option"
+            );
+
+
+        if (!removeButton) {
+            return;
+        }
+
+
+        removeButton.addEventListener(
+            "click",
+            () => {
+
+                const index =
+                    Number(
+                        card.dataset.option
+                    );
+
+
+                if (
+                    activeOptionCount <= 3
+                ) {
+
+                    return;
+                }
+
+
+                /*
+                 * Move the later option values
+                 * backward so the visible list
+                 * stays continuous.
+                 */
+
+                for (
+                    let i = index;
+                    i < activeOptionCount - 1;
+                    i++
+                ) {
+
+                    const currentInput =
+                        optionCards[i]
+                            .querySelector(
+                                ".option-input"
+                            );
+
+                    const nextInput =
+                        optionCards[i + 1]
+                            .querySelector(
+                                ".option-input"
+                            );
+
+
+                    currentInput.value =
+                        nextInput.value;
+
+
+                    ratings[i] =
+                        {
+                            ...ratings[i + 1]
+                        };
+
+                }
+
+
+                const lastCard =
+                    optionCards[
+                        activeOptionCount - 1
+                    ];
+
+
+                lastCard
+                    .querySelector(
+                        ".option-input"
+                    )
+                    .value =
+                    "";
+
+
+                lastCard.classList.add(
+                    "hidden"
+                );
+
+
+                activeOptionCount--;
+
+
+                updateOptionUI();
+
+                renderRatingCards();
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   UPDATE OPTION UI
+   ========================================================= */
+
+function updateOptionUI() {
+
+    optionCount.textContent =
+        `${activeOptionCount} / 5`;
+
+
+    addOptionButton.disabled =
+        activeOptionCount >= 5;
+
+
+    optionCards.forEach(
+        (card, index) => {
+
+            if (
+                index < activeOptionCount
+            ) {
+
+                card.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                card.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
+function clearValidation() {
+
+    validation.style.display =
+        "none";
+
+    validation.textContent =
+        "";
+}
+
+
+function showValidation(message) {
+
+    validation.textContent =
+        message;
+
+    validation.style.display =
+        "block";
+}
+
+
+function validate() {
+
+    for (
+        let i = 0;
+        i < activeOptionCount;
+        i++
+    ) {
+
+        const input =
+            optionCards[i]
+                .querySelector(
+                    ".option-input"
+                );
+
+
+        if (
+            !input.value.trim()
+        ) {
+
+            showValidation(
+                `Please name Option ${i + 1}.`
+            );
+
+            input.focus();
+
+            return false;
+        }
+
+
+        for (
+            const criterion of criteria
+        ) {
+
+            if (
+                ratings[i][criterion.key] ===
+                null
+            ) {
+
+                showValidation(
+                    `Please rate ${input.value.trim()} for ${criterion.name}.`
+                );
+
+                return false;
+            }
+
+        }
+
+    }
+
+
+    return true;
+}
+
+
+/* =========================================================
+   CALCULATE SCORES
+   ========================================================= */
+
+function calculateResults() {
+
+    const results = [];
+
+
+    for (
+        let i = 0;
+        i < activeOptionCount;
+        i++
+    ) {
+
+        const input =
+            optionCards[i]
+                .querySelector(
+                    ".option-input"
+                );
+
+
+        const name =
+            input.value.trim();
+
+
+        const score =
+            ratings[i].mood +
+            ratings[i].runtime +
+            ratings[i].interest +
+            ratings[i].energy;
+
+
+        const percentage =
+            Math.round(
+                (score / 20) * 100
+            );
+
+
+        results.push({
+
+            index: i,
+
+            name: name,
+
+            score: score,
+
+            percentage: percentage,
+
+            ratings: {
+                ...ratings[i]
+            }
+
         });
 
-        // Initial setup render
-        renderSetupOptions();
-    </script>
+    }
+
+
+    return results;
+}
+
+
+/* =========================================================
+   GENERATE WHY EXPLANATION
+   ========================================================= */
+
+function generateWhy(
+    winner,
+    allResults
+) {
+
+    const values = [
+
+        {
+            key: "mood",
+            label: "mood",
+            value: winner.ratings.mood
+        },
+
+        {
+            key: "runtime",
+            label: "runtime",
+            value: winner.ratings.runtime
+        },
+
+        {
+            key: "interest",
+            label: "interest",
+            value: winner.ratings.interest
+        },
+
+        {
+            key: "energy",
+            label: "energy",
+            value: winner.ratings.energy
+        }
+
+    ];
+
+
+    const highest =
+        Math.max(
+            ...values.map(
+                item => item.value
+            )
+        );
+
+
+    const strongest =
+        values.filter(
+            item =>
+                item.value === highest
+        );
+
+
+    const labels =
+        strongest.map(
+            item => item.label
+        );
+
+
+    let explanation;
+
+
+    if (
+        labels.length === 4
+    ) {
+
+        explanation =
+            `It scored strongly across mood, runtime, interest, and energy fit.`;
+
+    } else if (
+        labels.length === 3
+    ) {
+
+        explanation =
+            `It scored highest for ${labels[0]}, ${labels[1]}, and ${labels[2]}, making it your strongest overall fit.`;
+
+    } else if (
+        labels.length === 2
+    ) {
+
+        explanation =
+            `It scored highest for ${labels[0]} and ${labels[1]}, giving it the strongest overall fit.`;
+
+    } else {
+
+        explanation =
+            `It scored highest for ${labels[0]}, which helped push it ahead of the other options.`;
+    }
+
+
+    /*
+     * Add a little context when the winner
+     * has a very strong overall score.
+     */
+
+    if (
+        winner.percentage >= 90
+    ) {
+
+        explanation +=
+            ` With a ${winner.percentage}% match, it looks like an especially strong choice tonight.`;
+
+    } else if (
+        winner.percentage >= 75
+    ) {
+
+        explanation +=
+            ` Overall, it is a solid match for what you are in the mood for.`;
+
+    } else {
+
+        explanation +=
+            ` It is still your strongest match among the options you entered.`;
+    }
+
+
+    return explanation;
+}
+
+
+/* =========================================================
+   SHOW RESULTS
+   ========================================================= */
+
+function showResults() {
+
+    const results =
+        calculateResults();
+
+
+    const highestScore =
+        Math.max(
+            ...results.map(
+                result =>
+                    result.score
+            )
+        );
+
+
+    const winners =
+        results.filter(
+            result =>
+                result.score ===
+                highestScore
+        );
+
+
+    const winner =
+        winners[0];
+
+
+    /*
+     * Main winner
+     */
+
+    winnerName.textContent =
+        winner.name;
+
+
+    winnerMatch.textContent =
+        `${winner.percentage}% MATCH`;
+
+
+    /*
+     * Tie handling
+     */
+
+    if (
+        winners.length > 1
+    ) {
+
+        const names =
+            winners
+                .map(
+                    result =>
+                        result.name
+                )
+                .join(" and ");
+
+
+        tieResult.textContent =
+            `It's a tie! ${names} both match your preferences at ${winner.percentage}%.`;
+
+
+        tieResult.style.display =
+            "block";
+
+    } else {
+
+        tieResult.style.display =
+            "none";
+    }
+
+
+    /*
+     * Breakdown
+     */
+
+    breakdown.innerHTML =
+        "";
+
+
+    criteria.forEach(
+        criterion => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "breakdown-item";
+
+
+            item.innerHTML = `
+
+                <span class="breakdown-icon">
+                    ${criterion.icon}
+                </span>
+
+                <span class="breakdown-name">
+                    ${criterion.name}
+                </span>
+
+                <span class="breakdown-score">
+                    ${winner.ratings[criterion.key]}/5
+                </span>
+
+            `;
+
+
+            breakdown.appendChild(
+                item
+            );
+
+        }
+    );
+
+
+    /*
+     * Explanation
+     */
+
+    whyText.textContent =
+        generateWhy(
+            winner,
+            results
+        );
+
+
+    /*
+     * Switch screens
+     */
+
+    setupScreen.style.display =
+        "none";
+
+    resultScreen.classList.add(
+        "active"
+    );
+}
+
+
+/* =========================================================
+   FIND BUTTON
+   ========================================================= */
+
+findButton.addEventListener(
+    "click",
+    () => {
+
+        if (
+            !validate()
+        ) {
+
+            return;
+        }
+
+
+        showResults();
+
+    }
+);
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+resetButton.addEventListener(
+    "click",
+    () => {
+
+        /*
+         * Reset option count.
+         */
+
+        activeOptionCount = 3;
+
+
+        /*
+         * Clear names.
+         */
+
+        optionCards.forEach(
+            card => {
+
+                const input =
+                    card.querySelector(
+                        ".option-input"
+                    );
+
+
+                input.value =
+                    "";
+
+            }
+        );
+
+
+        /*
+         * Hide options 4 and 5.
+         */
+
+        optionCards.forEach(
+            (card, index) => {
+
+                if (
+                    index >= 3
+                ) {
+
+                    card.classList.add(
+                        "hidden"
+                    );
+
+                } else {
+
+                    card.classList.remove(
+                        "hidden"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Clear ratings.
+         */
+
+        createEmptyRatings();
+
+
+        /*
+         * Reset interface.
+         */
+
+        updateOptionUI();
+
+        renderRatingCards();
+
+        clearValidation();
+
+
+        /*
+         * Hide result.
+         */
+
+        resultScreen.classList.remove(
+            "active"
+        );
+
+
+        setupScreen.style.display =
+            "flex";
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+createEmptyRatings();
+
+updateOptionUI();
+
+renderRatingCards();
+
+</script>
+
 </body>
 </html>
