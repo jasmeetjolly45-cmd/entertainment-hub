@@ -32,6 +32,7 @@
     --gold-light: #D8B875;
 
     --border: rgba(242,235,221,.12);
+    --border-soft: rgba(242,235,221,.09);
     --border-gold: rgba(201,164,92,.38);
 
     --danger: #D89A7C;
@@ -74,26 +75,20 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
+
     body {
         background: #191919;
     }
+
 }
 
 
 /* =========================================================
    OUTER COMPOSITION
-   =========================================================
-
-   613 × 447
-
-   The decorative background image stays visible around
-   the entire forest-green widget.
-
-   IMPORTANT:
-   The aspect ratio is preserved on mobile.
    ========================================================= */
 
 .composition {
+
     position: relative;
 
     width: 100%;
@@ -105,10 +100,13 @@ body {
 
     flex-shrink: 0;
 
-    background-image: url("background.png");
+    background-image:
+        url("background.png");
 
     background-repeat: no-repeat;
+
     background-position: center;
+
     background-size: 100% 100%;
 
     overflow: hidden;
@@ -116,19 +114,17 @@ body {
 
 
 /* =========================================================
-   INNER FOREST-GREEN WIDGET
-   =========================================================
-
-   Approximately 541 × 375.
+   INNER FOREST GREEN WIDGET
 
    IMPORTANT:
-   Do NOT change this to height:100%.
+   These percentage values are intentional.
 
-   These percentage values preserve the beige frame
-   correctly on mobile.
+   They preserve the decorative frame on mobile.
+   Do NOT replace with height:100%.
    ========================================================= */
 
 .widget {
+
     position: absolute;
 
     left: 5.873%;
@@ -153,10 +149,11 @@ body {
 
 
 /* =========================================================
-   SCREEN
+   SCREENS
    ========================================================= */
 
 .screen {
+
     position: absolute;
 
     inset: 0;
@@ -164,14 +161,17 @@ body {
     width: 100%;
     height: 100%;
 
-    /* THIS IS THE IMPORTANT FIX */
     background: var(--forest);
 
     border-radius: inherit;
 
-    padding: 20px 25px 16px;
+    padding:
+        20px
+        25px
+        16px;
 
     display: flex;
+
     flex-direction: column;
 
     overflow: hidden;
@@ -188,6 +188,7 @@ body {
 }
 
 .screen.active {
+
     opacity: 1;
 
     pointer-events: auto;
@@ -201,12 +202,14 @@ body {
    ========================================================= */
 
 .header {
+
     flex-shrink: 0;
 
     text-align: center;
 }
 
 .header-icon {
+
     font-size: 14px;
 
     line-height: 1;
@@ -215,6 +218,7 @@ body {
 }
 
 .title {
+
     margin: 0;
 
     font-family:
@@ -234,7 +238,11 @@ body {
 }
 
 .subtitle {
-    margin: 4px 0 0;
+
+    margin:
+        4px
+        0
+        0;
 
     font-family:
         Georgia,
@@ -256,6 +264,7 @@ body {
    ========================================================= */
 
 .step-label {
+
     margin-top: 10px;
 
     flex-shrink: 0;
@@ -279,6 +288,7 @@ body {
    ========================================================= */
 
 .options-area {
+
     width: 100%;
 
     margin-top: 11px;
@@ -288,6 +298,7 @@ body {
     min-height: 0;
 
     display: flex;
+
     flex-direction: column;
 
     justify-content: flex-start;
@@ -299,6 +310,7 @@ body {
    ========================================================= */
 
 .option-row {
+
     width: 100%;
 
     display: grid;
@@ -315,6 +327,7 @@ body {
 }
 
 .option-label {
+
     font-size: 7.5px;
 
     font-weight: 700;
@@ -327,12 +340,14 @@ body {
 }
 
 .option-input-wrap {
+
     position: relative;
 
     min-width: 0;
 }
 
 .option-input {
+
     width: 100%;
 
     height: 30px;
@@ -361,11 +376,13 @@ body {
 }
 
 .option-input::placeholder {
+
     color:
         rgba(242,235,221,.38);
 }
 
 .option-input:focus {
+
     border-color:
         var(--border-gold);
 
@@ -379,6 +396,7 @@ body {
    ========================================================= */
 
 .add-option {
+
     align-self: flex-start;
 
     margin-top: 1px;
@@ -408,15 +426,12 @@ body {
 }
 
 .add-option:hover {
+
     background:
         rgba(201,164,92,.10);
 
     border-color:
         var(--gold);
-}
-
-.add-option:disabled {
-    display: none;
 }
 
 
@@ -425,6 +440,7 @@ body {
    ========================================================= */
 
 .remove-option {
+
     position: absolute;
 
     right: 7px;
@@ -455,6 +471,7 @@ body {
 }
 
 .remove-option:hover {
+
     color: var(--danger);
 
     background:
@@ -467,6 +484,7 @@ body {
    ========================================================= */
 
 .bottom-button {
+
     width: 100%;
 
     height: 32px;
@@ -497,11 +515,13 @@ body {
 }
 
 .bottom-button:hover {
+
     background:
         var(--gold-light);
 }
 
 .bottom-button:active {
+
     transform:
         scale(.99);
 }
@@ -512,6 +532,7 @@ body {
    ========================================================= */
 
 .validation {
+
     height: 12px;
 
     flex-shrink: 0;
@@ -528,20 +549,28 @@ body {
 }
 
 .validation.show {
+
     opacity: 1;
 }
 
 
 /* =========================================================
-   SCREEN 2 — RATINGS
+   RATINGS SCREEN
    ========================================================= */
 
 .rating-screen {
+
     padding-left: 24px;
     padding-right: 24px;
 }
 
+
+/* =========================================================
+   RATING HEADER NOTE
+   ========================================================= */
+
 .rating-header-note {
+
     margin-top: 4px;
 
     text-align: center;
@@ -553,74 +582,132 @@ body {
 
 
 /* =========================================================
-   RATING CARDS
+   RATING CARDS AREA
+
+   ONE COLUMN.
+
+   This is intentionally scrollable.
+
+   The cards are NOT squeezed into a grid.
    ========================================================= */
 
 .rating-cards {
+
     flex: 1;
 
     min-height: 0;
 
-    margin-top: 8px;
+    width: 100%;
 
-    display: grid;
+    margin-top: 9px;
 
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+    padding:
+        0
+        2px
+        6px
+        0;
 
-    grid-template-rows:
-        repeat(3, minmax(0, 1fr));
+    display: flex;
 
-    gap: 6px;
+    flex-direction: column;
+
+    gap: 10px;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(120,147,111,.65)
+        transparent;
+}
+
+
+/* Chrome / Safari scrollbar */
+
+.rating-cards::-webkit-scrollbar {
+
+    width: 7px;
+}
+
+.rating-cards::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+}
+
+.rating-cards::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(120,147,111,.65);
+
+    border-radius: 10px;
+}
+
+.rating-cards::-webkit-scrollbar-thumb:hover {
+
+    background:
+        rgba(120,147,111,.85);
+}
+
+
+/* =========================================================
+   LARGE RATING CARD
+   ========================================================= */
+
+.rating-card {
+
+    width: 100%;
+
+    flex-shrink: 0;
+
+    min-height: 164px;
+
+    padding:
+        12px
+        13px;
+
+    background:
+        var(--input);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 9px;
+
+    display: flex;
+
+    flex-direction: column;
 
     overflow: hidden;
 }
 
 
 /* =========================================================
-   RATING CARD
+   OPTION NAME
    ========================================================= */
 
-.rating-card {
-    min-width: 0;
-    min-height: 0;
-
-    padding:
-        7px
-        8px;
-
-    background:
-        rgba(22,61,43,.72);
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 8px;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-}
-
 .rating-card-name {
+
     flex-shrink: 0;
 
-    padding-bottom: 5px;
+    padding-bottom: 9px;
 
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 
     border-bottom:
         1px solid
-        rgba(242,235,221,.09);
+        var(--border-soft);
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-size: 10px;
+    font-size: 14px;
 
     line-height: 1;
 
@@ -636,9 +723,15 @@ body {
 
 /* =========================================================
    CRITERION ROW
+
+   Label on left.
+   Rating controls on right.
    ========================================================= */
 
 .criterion-row {
+
+    width: 100%;
+
     min-height: 0;
 
     flex: 1;
@@ -647,25 +740,31 @@ body {
 
     grid-template-columns:
         minmax(0, 1fr)
-        94px;
+        150px;
 
     align-items: center;
 
-    gap: 4px;
+    gap: 12px;
 }
 
+
+/* =========================================================
+   CRITERION LABEL
+   ========================================================= */
+
 .criterion-name {
+
     min-width: 0;
 
     display: flex;
 
     align-items: center;
 
-    gap: 3px;
+    gap: 6px;
 
-    font-size: 7px;
+    font-size: 9px;
 
-    color: var(--cream-muted);
+    color: var(--cream);
 
     white-space: nowrap;
 
@@ -675,63 +774,76 @@ body {
 }
 
 .criterion-icon {
+
     flex-shrink: 0;
 
-    font-size: 7px;
+    font-size: 10px;
 }
 
 
 /* =========================================================
    RATING BUTTONS
+
+   Larger and cleaner than the previous version.
    ========================================================= */
 
 .rating-buttons {
+
     display: grid;
 
     grid-template-columns:
-        repeat(5, 1fr);
+        repeat(5, 26px);
 
-    gap: 2px;
+    justify-content: end;
+
+    gap: 5px;
 }
 
 .rating-button {
-    width: 100%;
 
-    height: 18px;
+    width: 26px;
+
+    height: 26px;
 
     padding: 0;
 
     border:
         1px solid
-        rgba(242,235,221,.10);
+        rgba(242,235,221,.18);
 
-    border-radius: 4px;
+    border-radius: 50%;
 
     background:
-        rgba(13,48,34,.70);
+        rgba(13,48,34,.55);
 
     color:
-        rgba(242,235,221,.58);
+        rgba(242,235,221,.72);
 
-    font-size: 6px;
+    font-size: 8px;
 
     cursor: pointer;
 
     transition:
         background .12s ease,
         border-color .12s ease,
-        color .12s ease;
+        color .12s ease,
+        transform .12s ease;
 }
 
 .rating-button:hover {
+
     border-color:
-        rgba(201,164,92,.40);
+        rgba(201,164,92,.55);
 
     color:
         var(--cream);
+
+    transform:
+        translateY(-1px);
 }
 
 .rating-button.selected {
+
     background:
         var(--sage);
 
@@ -750,11 +862,16 @@ body {
    ========================================================= */
 
 .result-screen {
+
     text-align: center;
 }
 
 .result-kicker {
-    margin: 0 0 3px;
+
+    margin:
+        0
+        0
+        3px;
 
     color: var(--gold);
 
@@ -768,6 +885,7 @@ body {
 }
 
 .result-title {
+
     margin: 0;
 
     font-family:
@@ -785,6 +903,7 @@ body {
 }
 
 .result-match {
+
     display: inline-block;
 
     margin-top: 6px;
@@ -818,6 +937,7 @@ body {
    ========================================================= */
 
 .result-body {
+
     flex: 1;
 
     min-height: 0;
@@ -832,6 +952,7 @@ body {
 }
 
 .result-breakdown-title {
+
     margin:
         0
         0
@@ -850,6 +971,7 @@ body {
 }
 
 .result-breakdown {
+
     width: 320px;
 
     max-width: 100%;
@@ -863,6 +985,7 @@ body {
 }
 
 .result-score {
+
     padding:
         7px
         3px;
@@ -878,6 +1001,7 @@ body {
 }
 
 .result-score-icon {
+
     display: block;
 
     font-size: 10px;
@@ -886,6 +1010,7 @@ body {
 }
 
 .result-score-name {
+
     display: block;
 
     font-size: 5.5px;
@@ -897,6 +1022,7 @@ body {
 }
 
 .result-score-value {
+
     display: block;
 
     font-family:
@@ -916,6 +1042,7 @@ body {
    ========================================================= */
 
 .why-box {
+
     width: 390px;
 
     max-width: 100%;
@@ -943,6 +1070,7 @@ body {
 }
 
 .why-title {
+
     margin:
         0
         0
@@ -961,6 +1089,7 @@ body {
 }
 
 .why-text {
+
     margin: 0;
 
     font-family:
@@ -982,6 +1111,7 @@ body {
    ========================================================= */
 
 .result-actions {
+
     display: flex;
 
     justify-content: center;
@@ -992,6 +1122,7 @@ body {
 }
 
 .result-action {
+
     height: 27px;
 
     padding:
@@ -1022,6 +1153,7 @@ body {
 }
 
 .result-action:hover {
+
     background:
         var(--sage);
 
@@ -1035,44 +1167,48 @@ body {
 
 /* =========================================================
    MOBILE
-   =========================================================
 
    IMPORTANT:
+   The successful outer geometry is untouched.
 
-   The outer frame geometry is NOT changed.
-
-   The green widget remains inside the same proportional
-   boundaries.
-
-   No scrolling is introduced.
+   We only scale the CONTENT inside the widget.
    ========================================================= */
 
 @media (max-width: 600px) {
 
     .screen {
+
         padding:
             13px
             16px
             11px;
     }
 
+
     .title {
+
         font-size: 17px;
     }
 
+
     .header-icon {
+
         font-size: 10px;
 
         margin-bottom: 2px;
     }
 
+
     .subtitle {
+
         font-size: 7px;
 
         margin-top: 3px;
     }
 
+
     .step-label {
+
         margin-top: 7px;
 
         font-size: 5.7px;
@@ -1084,10 +1220,13 @@ body {
        ----------------------------------------- */
 
     .options-area {
+
         margin-top: 8px;
     }
 
+
     .option-row {
+
         grid-template-columns:
             64px
             minmax(0, 1fr);
@@ -1097,11 +1236,15 @@ body {
         margin-bottom: 5px;
     }
 
+
     .option-label {
+
         font-size: 6px;
     }
 
+
     .option-input {
+
         height: 25px;
 
         padding:
@@ -1113,7 +1256,9 @@ body {
         font-size: 7.5px;
     }
 
+
     .add-option {
+
         padding:
             4px
             7px;
@@ -1121,13 +1266,17 @@ body {
         font-size: 6.5px;
     }
 
+
     .bottom-button {
+
         height: 27px;
 
         font-size: 6.8px;
     }
 
+
     .validation {
+
         height: 9px;
 
         font-size: 5.5px;
@@ -1139,64 +1288,98 @@ body {
        ----------------------------------------- */
 
     .rating-screen {
+
         padding-left: 15px;
         padding-right: 15px;
     }
 
+
     .rating-header-note {
+
         font-size: 5px;
 
         margin-top: 3px;
     }
 
+
     .rating-cards {
+
         margin-top: 6px;
+
+        gap: 7px;
+
+        padding-right: 2px;
+    }
+
+
+    .rating-cards::-webkit-scrollbar {
+
+        width: 5px;
+    }
+
+
+    .rating-card {
+
+        min-height: 128px;
+
+        padding:
+            9px
+            10px;
+
+        border-radius: 7px;
+    }
+
+
+    .rating-card-name {
+
+        font-size: 9px;
+
+        padding-bottom: 6px;
+
+        margin-bottom: 4px;
+    }
+
+
+    .criterion-row {
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            112px;
+
+        gap: 7px;
+    }
+
+
+    .criterion-name {
+
+        font-size: 6.5px;
 
         gap: 4px;
     }
 
-    .rating-card {
-        padding:
-            5px
-            6px;
 
-        border-radius: 6px;
+    .criterion-icon {
+
+        font-size: 7px;
     }
 
-    .rating-card-name {
-        font-size: 7.5px;
 
-        padding-bottom: 3px;
+    .rating-buttons {
 
-        margin-bottom: 2px;
-    }
-
-    .criterion-row {
         grid-template-columns:
-            minmax(0, 1fr)
-            76px;
+            repeat(5, 20px);
 
         gap: 3px;
     }
 
-    .criterion-name {
-        font-size: 5.3px;
-    }
-
-    .criterion-icon {
-        font-size: 5.5px;
-    }
-
-    .rating-buttons {
-        gap: 1px;
-    }
 
     .rating-button {
-        height: 14px;
 
-        border-radius: 3px;
+        width: 20px;
 
-        font-size: 4.8px;
+        height: 20px;
+
+        font-size: 6px;
     }
 
 
@@ -1205,14 +1388,19 @@ body {
        ----------------------------------------- */
 
     .result-kicker {
+
         font-size: 5.5px;
     }
 
+
     .result-title {
+
         font-size: 18px;
     }
 
+
     .result-match {
+
         margin-top: 4px;
 
         padding:
@@ -1222,35 +1410,49 @@ body {
         font-size: 5.5px;
     }
 
+
     .result-breakdown-title {
+
         font-size: 5.5px;
     }
 
+
     .result-breakdown {
+
         width: 280px;
 
         gap: 3px;
     }
 
+
     .result-score {
+
         padding:
             5px
             2px;
     }
 
+
     .result-score-icon {
+
         font-size: 8px;
     }
 
+
     .result-score-name {
+
         font-size: 4.3px;
     }
 
+
     .result-score-value {
+
         font-size: 9px;
     }
 
+
     .why-box {
+
         margin-top: 6px;
 
         padding:
@@ -1258,15 +1460,21 @@ body {
             8px;
     }
 
+
     .why-title {
+
         font-size: 4.8px;
     }
 
+
     .why-text {
+
         font-size: 5.5px;
     }
 
+
     .result-action {
+
         height: 23px;
 
         padding:
@@ -1275,6 +1483,7 @@ body {
 
         font-size: 5.5px;
     }
+
 }
 
 
@@ -1285,27 +1494,36 @@ body {
 @media (max-width: 380px) {
 
     .screen {
+
         padding:
             10px
             12px
             9px;
     }
 
+
     .title {
+
         font-size: 15px;
     }
 
+
     .subtitle {
+
         font-size: 6px;
     }
 
+
     .step-label {
+
         font-size: 5px;
 
         margin-top: 5px;
     }
 
+
     .option-row {
+
         grid-template-columns:
             55px
             minmax(0, 1fr);
@@ -1315,68 +1533,112 @@ body {
         margin-bottom: 4px;
     }
 
+
     .option-label {
+
         font-size: 5.3px;
     }
 
+
     .option-input {
+
         height: 22px;
 
         font-size: 6.5px;
     }
 
+
     .add-option {
+
         font-size: 5.5px;
     }
 
+
     .bottom-button {
+
         height: 24px;
 
         font-size: 6px;
     }
 
+
+    /* RATINGS */
+
     .rating-screen {
+
         padding-left: 11px;
         padding-right: 11px;
     }
 
+
     .rating-card {
+
+        min-height: 116px;
+
         padding:
-            4px
-            5px;
+            8px
+            8px;
     }
+
 
     .rating-card-name {
-        font-size: 6.5px;
+
+        font-size: 8px;
     }
+
 
     .criterion-row {
+
         grid-template-columns:
             minmax(0, 1fr)
-            65px;
+            100px;
+
+        gap: 5px;
     }
+
 
     .criterion-name {
-        font-size: 4.6px;
+
+        font-size: 5.7px;
     }
+
+
+    .rating-buttons {
+
+        grid-template-columns:
+            repeat(5, 18px);
+
+        gap: 2px;
+    }
+
 
     .rating-button {
-        height: 12px;
 
-        font-size: 4px;
+        width: 18px;
+
+        height: 18px;
+
+        font-size: 5px;
     }
 
+
     .result-title {
+
         font-size: 16px;
     }
 
+
     .result-breakdown {
+
         width: 250px;
     }
 
+
     .why-text {
+
         font-size: 5px;
     }
+
 }
 
 </style>
@@ -1400,9 +1662,9 @@ body {
     <div class="widget">
 
 
-        <!-- ================================================
+        <!-- =================================================
              SCREEN 1 — OPTIONS
-             ================================================ -->
+             ================================================= -->
 
         <section
             class="screen active"
@@ -1580,8 +1842,6 @@ body {
                 </div>
 
 
-                <!-- ADD OPTION -->
-
                 <button
                     class="add-option"
                     id="addOption"
@@ -1647,6 +1907,12 @@ body {
                 1 = low · 5 = high
             </div>
 
+
+            <!--
+                Cards are generated here by JavaScript.
+                They are intentionally ONE COLUMN and
+                vertically scrollable.
+            -->
 
             <div
                 class="rating-cards"
@@ -1748,6 +2014,7 @@ body {
                     ← Edit Ratings
                 </button>
 
+
                 <button
                     class="result-action"
                     id="startOver"
@@ -1800,7 +2067,7 @@ const criteria = [
     {
         key: "energy",
         icon: "🧠",
-        name: "Energy"
+        name: "Energy (5=Easy)"
     }
 
 ];
@@ -1892,7 +2159,7 @@ function showScreen(screen) {
 
 
 /* =========================================================
-   GET INPUT
+   INPUT HELPERS
    ========================================================= */
 
 function getInput(index) {
@@ -1972,11 +2239,6 @@ document
                         );
 
 
-                    /*
-                     * Shift later options
-                     * upward.
-                     */
-
                     for (
                         let i = index;
                         i < optionCount - 1;
@@ -2048,7 +2310,6 @@ function validateOptions() {
 
 
             return false;
-
         }
 
     }
@@ -2096,7 +2357,7 @@ function initializeRatings() {
 
 
 /* =========================================================
-   RENDER RATING CARDS
+   BUILD RATING CARDS
    ========================================================= */
 
 function renderRatingCards() {
@@ -2121,6 +2382,8 @@ function renderRatingCards() {
             "rating-card";
 
 
+        /* OPTION NAME */
+
         const name =
             document.createElement(
                 "div"
@@ -2140,6 +2403,8 @@ function renderRatingCards() {
         );
 
 
+        /* CRITERIA */
+
         criteria.forEach(
             criterion => {
 
@@ -2152,6 +2417,8 @@ function renderRatingCards() {
                 row.className =
                     "criterion-row";
 
+
+                /* LABEL */
 
                 const label =
                     document.createElement(
@@ -2191,10 +2458,13 @@ function renderRatingCards() {
                     icon
                 );
 
+
                 label.appendChild(
                     text
                 );
 
+
+                /* BUTTONS */
 
                 const buttons =
                     document.createElement(
@@ -2289,6 +2559,7 @@ function renderRatingCards() {
                 row.appendChild(
                     label
                 );
+
 
                 row.appendChild(
                     buttons
@@ -2441,7 +2712,7 @@ function calculateResults() {
 
 
 /* =========================================================
-   GENERATE EXPLANATION
+   EXPLANATION
    ========================================================= */
 
 function generateExplanation(
@@ -2544,16 +2815,12 @@ function showResult() {
         );
 
 
-    const winners =
-        results.filter(
+    const winner =
+        results.find(
             item =>
                 item.score ===
                 highest
         );
-
-
-    const winner =
-        winners[0];
 
 
     document.getElementById(
